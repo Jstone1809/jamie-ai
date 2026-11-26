@@ -94,7 +94,7 @@ section > .wrap > .label::before{content:"";display:inline-block;width:28px;heig
 
 /* the log - a replay of a typical evening */
 .log{position:relative;background:linear-gradient(180deg,rgba(18,28,25,.92),rgba(9,15,13,.92));border:1px solid var(--line);border-radius:18px;overflow:hidden;min-width:0;
-  box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 80px -30px rgba(61,255,180,.45);transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;will-change:transform}
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 80px -30px rgba(61,255,180,.45)}
 .log::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(140deg,rgba(61,255,180,.75),transparent 35%,transparent 65%,rgba(169,139,255,.7));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .log header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
@@ -143,12 +143,14 @@ section > .wrap > .label::before{content:"";display:inline-block;width:28px;heig
 
 /* ---------- case studies ---------- */
 .cases{margin-top:48px;display:flex;flex-direction:column;gap:16px;counter-reset:c}
-.case{counter-increment:c;display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr);gap:clamp(20px,4vw,48px);padding:30px clamp(20px,3vw,34px);border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden}
+.case{counter-increment:c;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);align-items:center;gap:clamp(22px,4vw,56px);padding:clamp(22px,3vw,38px);border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden}
 .case .meta{display:flex;flex-direction:column;gap:12px;position:relative}
 .case .meta::before{content:"0" counter(c);font-family:var(--display);font-weight:800;font-size:3.4rem;line-height:.9;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(61,255,180,.55)}
 .case .area{display:inline-block;align-self:flex-start;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--signal-soft);color:var(--signal);border:1px solid rgba(61,255,180,.25)}
-.case h3{font-size:1.45rem}
-.case .body{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-content:start}
+.case h3{font-size:clamp(1.45rem,2.4vw,1.9rem)}
+.case .text{display:flex;flex-direction:column;gap:22px;min-width:0}
+.case:nth-child(even) .demo{order:-1}
+.case .body{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-content:start}
 .case .body > div{min-width:0}
 .case .body h4{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin:0 0 8px;font-weight:500}
 .case .body p{font-size:.96rem;color:var(--ink-2)}
@@ -177,13 +179,18 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
 
 /* ---------- guardrails ---------- */
 .rails{margin-top:44px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:r}
-.rail{counter-increment:r;padding:26px 24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+.rail{counter-increment:r;position:relative;padding:26px 24px;border:1px solid var(--line);border-radius:18px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
 .rail::before{content:"RULE 0" counter(r);font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--flag)}
 .rail p{color:var(--ink-2);font-size:.95rem}
 
 /* ---------- playbook ---------- */
 .steps{margin-top:44px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.step{display:flex;flex-direction:column;gap:10px;padding:24px 22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);position:relative}
+.step{display:flex;flex-direction:column;gap:10px;padding:24px 22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);position:relative;transition:border-color .4s,box-shadow .4s}
+.step::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:2px;border-radius:2px;background:var(--signal);box-shadow:0 0 12px var(--signal);transform:scaleX(0);transform-origin:0 50%;transition:transform 1.5s linear}
+.step.act::before,.step.done::before{transform:scaleX(1)}
+.step.act{border-color:rgba(61,255,180,.55);box-shadow:0 0 40px -14px rgba(61,255,180,.8)}
+.step.done .when::after{content:" ✓"}
+.steps.rst .step::before{transition:none}
 .step .when{font-family:var(--mono);font-size:.76rem;color:var(--signal);letter-spacing:.08em;text-transform:uppercase}
 .step p{color:var(--ink-2);font-size:.95rem}
 .who-for{margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
@@ -217,9 +224,9 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
   .stack.mq .grp{animation:mq 38s linear infinite}
   .fx::before{animation:drift 16s ease-in-out infinite alternate}
   .fx::after{animation:drift 20s ease-in-out infinite alternate-reverse}
-  .hero > div > *{animation:rise .9s var(--ease) both}
-  .hero > div > :nth-child(2){animation-delay:.08s}.hero > div > :nth-child(3){animation-delay:.18s}.hero > div > :nth-child(4){animation-delay:.28s}
-  .hero .log{animation:rise 1s var(--ease) .25s both}
+  .hero > div:first-child > *{animation:rise .9s var(--ease) backwards}
+  .hero > div:first-child > :nth-child(2){animation-delay:.08s}.hero > div:first-child > :nth-child(3){animation-delay:.18s}.hero > div:first-child > :nth-child(4){animation-delay:.28s}
+  .hero .logwrap{animation:rise 1s var(--ease) .25s backwards}
   @keyframes sheen{to{background-position:-220% 0}}
   @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(61,255,180,0),0 0 16px var(--signal)}}
   @keyframes flow{0%{left:0;opacity:0}15%,85%{opacity:1}100%{left:calc(100% - 10px);opacity:0}}
@@ -229,14 +236,14 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
   @keyframes drift{to{transform:translate(70px,50px) scale(1.15)}}
   @keyframes rise{from{opacity:0;transform:translateY(24px)}}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.log{transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.logwrap{transform:none}}
 
 @media (max-width:980px){
   .hero{grid-template-columns:minmax(0,1fr)}
   .map{grid-template-columns:minmax(0,1fr)}
   .arrow{transform:rotate(90deg);justify-self:center;margin-block:18px}
   .case{grid-template-columns:minmax(0,1fr)}
-  .case .body{grid-template-columns:minmax(0,1fr)}
+  .case .demo,.case:nth-child(even) .demo{order:0}
   .rails{grid-template-columns:repeat(2,minmax(0,1fr))}
   .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
   .who-for{grid-template-columns:minmax(0,1fr)}
@@ -247,7 +254,159 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
   .stat{padding:20px 16px 18px}
   .rails,.steps{grid-template-columns:minmax(0,1fr)}
   .top .who{font-size:.95rem}
-  .log{transform:none}
+  .logwrap{transform:none;margin-bottom:34px}
+  .ping{right:10px;bottom:-30px}
+}
+
+/* ================= v3: live scenes ================= */
+/* phone decision card that pops out of the log */
+.logwrap{position:relative;min-width:0;transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;will-change:transform}
+.ping{position:absolute;right:-22px;bottom:52px;width:236px;padding:14px 14px 13px;border-radius:18px;background:rgba(24,18,8,.94);border:1px solid rgba(255,179,71,.65);
+  box-shadow:0 24px 60px -10px rgba(0,0,0,.85),0 0 46px -8px rgba(255,179,71,.65);opacity:0;transform:translateY(16px) scale(.92);transition:opacity .35s,transform .5s var(--ease);pointer-events:none;z-index:3}
+.ping.show{opacity:1;transform:none}
+.ping .ph{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--flag);display:flex;justify-content:space-between;gap:8px}
+.ping b{display:block;margin-top:7px;font-family:var(--display);font-size:1.02rem;line-height:1.2}
+.ping p{color:var(--ink-2);font-size:.8rem;margin-top:3px;line-height:1.4}
+.ping .pb{display:flex;gap:8px;margin-top:11px}
+.ping .pb span{flex:1;text-align:center;padding:7px 0;border-radius:999px;border:1px solid var(--line);font-weight:600;font-size:.78rem;color:var(--ink-2);transition:all .25s}
+.ping .pb .y{border-color:var(--signal);color:var(--signal)}
+.ping.tap .pb .y{background:var(--signal);color:#03130d;transform:scale(.95);box-shadow:0 0 24px -2px var(--signal)}
+.ping.tap .pb .y::after{content:" ✓"}
+
+/* stat mini visuals */
+.viz{display:flex;flex-wrap:wrap;gap:3px;margin-top:12px;min-height:22px;align-items:center;position:relative;overflow:hidden}
+.viz.dots i{width:6px;height:6px;border-radius:50%;background:var(--signal);opacity:.28}
+.viz.big i{width:9px;height:9px}
+.viz.flow{height:22px}
+.viz.flow::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(61,255,180,.5),transparent)}
+.viz.flow i{position:absolute;left:-12px;top:calc(50% - 4px);width:8px;height:8px;border-radius:2px;background:var(--signal);box-shadow:0 0 10px var(--signal)}
+.viz.film{flex-wrap:nowrap;gap:5px}
+.viz.film i{flex:none;width:22px;height:14px;border-radius:3px;border:1px solid rgba(61,255,180,.6);background:linear-gradient(135deg,rgba(61,255,180,.25),rgba(169,139,255,.2))}
+.viz.code{flex-direction:column;align-items:flex-start;gap:4px;flex-wrap:nowrap}
+.viz.code i{display:block;height:3px;border-radius:2px;background:var(--signal);opacity:.7;width:var(--w,60%);transform-origin:0 50%}
+
+/* system map wiring */
+.map{position:relative}
+.map .node{position:relative;z-index:1;transition:opacity .8s var(--ease) var(--d,0ms),transform .5s var(--ease) var(--d,0ms),background .3s,border-color .3s,box-shadow .3s}
+.map.wired .arrow{background:none;width:72px}
+.map.wired .arrow::after{display:none}
+.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+.wires path{fill:none;stroke:rgba(255,255,255,.11);stroke-width:1.2}
+.wires path.hot{stroke:var(--signal);stroke-width:2.6;stroke-linecap:round;filter:drop-shadow(0 0 6px var(--signal))}
+.wires path.hot.amb{stroke:var(--flag);filter:drop-shadow(0 0 6px var(--flag))}
+.map .node.lit{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 0 36px -6px rgba(61,255,180,.9);transform:scale(1.03)}
+.map .node.me.lit{border-color:var(--flag);box-shadow:0 0 0 1px var(--flag),0 0 40px -4px rgba(255,179,71,.95);animation:none}
+.trace{margin-top:26px;font-family:var(--mono);font-size:.88rem;color:var(--signal);min-height:1.6em;display:flex;gap:12px;align-items:center;transition:opacity .3s}
+.trace::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 12px currentColor}
+.trace.amb{color:var(--flag)}
+.trace.swap{opacity:0}
+
+/* case-study scenes: one small looping film per case */
+.demo{position:relative;border-radius:18px;border:1px solid var(--line);background-color:#060c0a;overflow:hidden;aspect-ratio:16/10;min-width:0;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:28px 28px;
+  box-shadow:inset 0 0 80px rgba(0,0,0,.6),0 30px 70px -40px rgba(61,255,180,.5)}
+.demo svg{display:block;width:100%;height:100%}
+.demo text{font-family:var(--mono);font-size:11px;fill:var(--ink)}
+.demo .sm{font-size:9.5px}
+.demo .dim{fill:var(--ink-2)}
+.demo .mint{fill:var(--signal)}
+.demo .amb{fill:var(--flag)}
+.demo .red{fill:#ff7b7b}
+.demo .card{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.17)}
+.demo .wire{fill:none;stroke:rgba(255,255,255,.2);stroke-dasharray:3 4}
+.demo .pill{fill:rgba(61,255,180,.13);stroke:rgba(61,255,180,.45)}
+.demo .h{opacity:0;transition:opacity .45s var(--ease),transform .55s var(--ease)}
+.demo .up{transform:translateY(9px)}
+.demo .d1{transition-delay:.18s}.demo .d2{transition-delay:.36s}.demo .d3{transition-delay:.54s}.demo .d4{transition-delay:.72s}.demo .d5{transition-delay:.9s}
+.demo .gb,.demo .gt{transform-box:fill-box;transform:scaleY(0);transition:transform .55s var(--ease)}
+.demo .gb{transform-origin:50% 100%}.demo .gt{transform-origin:50% 0}
+.demo .ln{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s ease}
+.demo .pk{fill:var(--signal);opacity:0;filter:drop-shadow(0 0 6px var(--signal));transition:transform .8s var(--ease),opacity .2s}
+.demo .bar1{transform-box:fill-box;transform-origin:0 50%;transform:scaleX(0);transition:transform 2.7s linear}
+.demo .spin{transform-box:fill-box;transform-origin:center}
+.demo .scan{fill:var(--signal);opacity:0;filter:drop-shadow(0 0 6px var(--signal));transition:transform 1.3s linear,opacity .2s}
+.demo .sq{fill:rgba(255,255,255,.12);transition:fill .3s,opacity .5s}
+.demo .c1{transition-delay:.16s}.demo .c2{transition-delay:.32s}.demo .c3{transition-delay:.48s}.demo .c4{transition-delay:.64s}.demo .c5{transition-delay:.8s}.demo .c6{transition-delay:.96s}.demo .c7{transition-delay:1.12s}
+.demo .al{fill:rgba(255,255,255,.22);transform-box:fill-box;transform-origin:center;transition:transform .9s var(--ease),opacity .7s}
+.demo .yes{fill:none;stroke:var(--signal);transition:fill .25s}
+.demo .yt{fill:var(--signal);transition:fill .25s}
+.demo .sl{transition:transform .6s var(--ease),opacity .5s}
+.demo .chip rect{fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.17);transition:fill .35s,stroke .35s}
+.demo .chip text{fill:var(--ink-2);transition:fill .35s}
+.demo .blk{transition:transform .75s var(--ease)}
+.demo .blk rect{fill:var(--signal);opacity:.8}
+.demo .cut{fill:#ff6b6b;opacity:0;transition:opacity .35s}
+/* steps */
+.demo.s1 .a1,.demo.s2 .a2,.demo.s3 .a3,.demo.s4 .a4,.demo.s5 .a5,.demo.s6 .a6{opacity:1;transform:none}
+.demo.s1 .l1,.demo.s2 .l2,.demo.s3 .l3{stroke-dashoffset:0}
+.demo.s2 .g2,.demo.s3 .g3,.demo.s4 .g4,.demo.s5 .g5{opacity:0}
+.demo.s1 .p1,.demo.s3 .p2{opacity:1;transform:translateX(40px)}
+.demo.s2 .p1,.demo.s4 .p2{opacity:0}
+.demo.s1 .bar1{transform:scaleX(1)}
+.demo.s1 .scan{opacity:1;transform:translateX(208px)}
+.demo.s2 .scan{opacity:0}
+.demo.s1 .sq{fill:rgba(61,255,180,.75)}
+.demo.s1 .sq.bad{fill:#ff6b6b}
+.demo.s2 .sq.bad{opacity:.1}
+.demo.s1 .al{transform:translateX(120px) scale(.2);opacity:0}
+.demo.s2 .yA .yes,.demo.s3 .yB .yes{fill:var(--signal)}
+.demo.s2 .yA .yt,.demo.s3 .yB .yt{fill:#03130d}
+.demo.s3 .cA,.demo.s4 .cB{transform:translateX(150px);opacity:0}
+.demo.s2 .chip rect{fill:rgba(61,255,180,.18);stroke:var(--signal)}
+.demo.s2 .chip text{fill:var(--signal)}
+.demo.s1 .cut{opacity:.4}
+.demo.s2 .cut{opacity:0}
+.demo.s2 .b2{transform:translateX(-40px)}.demo.s2 .b3{transform:translateX(-90px)}.demo.s2 .b4{transform:translateX(-115px)}
+.demo.rst *{transition:none!important}
+
+/* guardrail glyphs */
+.rail h3{padding-right:56px}
+.ri{position:absolute;top:18px;right:18px;width:46px;height:46px;overflow:visible}
+.ri .o{fill:rgba(255,255,255,.04);stroke:var(--signal);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.ri .l{fill:none;stroke:var(--ink-2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ri .m{fill:none;stroke:var(--signal);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ri .a{fill:var(--flag)}
+.ri .as{fill:none;stroke:var(--flag);stroke-width:1.8;stroke-linecap:round}
+.ri .f{fill:var(--signal)}
+.ri *{transform-box:fill-box;transform-origin:center}
+
+/* inventory mix + row fade */
+.mix{margin-top:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:.82rem;color:var(--ink-2)}
+.mix .bar{flex:1 1 220px;max-width:440px;height:8px;border-radius:99px;background:var(--flag);overflow:hidden;display:flex;box-shadow:0 0 18px -4px rgba(255,179,71,.6)}
+.mix .bar i{display:block;height:100%;width:0;background:var(--signal);transition:width .7s var(--ease);box-shadow:0 0 18px rgba(61,255,180,.7)}
+.mix b{color:var(--signal);font-weight:500}
+.mix b.w{color:var(--flag)}
+
+@media (prefers-reduced-motion:no-preference){
+  .demo:not(.play) *,.rails:not(.play) .ri *,.stats:not(.play) .viz *{animation-play-state:paused!important}
+  .demo .spin{animation:spin 1s linear infinite}
+  .demo .ty{animation:ty 1s ease-in-out infinite}
+  .demo .ty.t2{animation-delay:.15s}.demo .ty.t3{animation-delay:.3s}
+  .viz.dots i{animation:tw 2.6s ease-in-out infinite}
+  .viz.flow i{animation:fl 2.8s linear infinite}
+  .viz.film i{animation:flm 6s linear infinite}
+  .viz.code i{animation:cd 3.2s ease-in-out infinite}
+  .ri .pulse{animation:rp 2s ease-out infinite}
+  .ri .hop{animation:hop 2.4s ease-in-out infinite}
+  .ri .undo{animation:undo 3.2s var(--ease) infinite}
+  .ri .hit{animation:hit 2.2s ease-in infinite}
+  .ri .ring{animation:ring 3s ease-in-out infinite;transform-origin:50% 0}
+  .ri .zz{animation:zz 3s ease-in-out infinite}
+  .ri .fix{animation:fix 3.4s steps(1) infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes ty{0%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+  @keyframes tw{0%,100%{opacity:.22}50%{opacity:1}}
+  @keyframes fl{0%{transform:translateX(0);opacity:0}8%{opacity:1}92%{opacity:1}100%{transform:translateX(420px);opacity:0}}
+  @keyframes flm{to{transform:translateX(-135px)}}
+  @keyframes cd{0%{transform:scaleX(0)}45%,80%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+  @keyframes rp{0%{transform:scale(1);opacity:.9}70%,100%{transform:scale(2.6);opacity:0}}
+  @keyframes hop{0%,60%,100%{transform:translateY(0)}75%{transform:translateY(-3.5px)}}
+  @keyframes undo{0%,35%{transform:rotate(0)}70%,100%{transform:rotate(-360deg)}}
+  @keyframes hit{0%{transform:translateX(-14px);opacity:0}15%{opacity:1}50%{transform:translateX(0)}75%{transform:translate(-9px,5px);opacity:1}100%{transform:translate(-16px,10px);opacity:0}}
+  @keyframes ring{0%,50%,100%{transform:rotate(0)}8%{transform:rotate(9deg)}18%{transform:rotate(-7deg)}28%{transform:rotate(4deg)}38%{transform:rotate(0)}}
+  @keyframes zz{0%{transform:translate(0,0);opacity:0}30%{opacity:1}100%{transform:translate(5px,-9px);opacity:0}}
+  @keyframes fix{0%{fill:var(--signal)}45%{fill:#ff6b6b}60%{fill:var(--flag)}75%{fill:var(--signal)}}
+  @keyframes rowin{from{opacity:0;transform:translateY(6px)}}
 }
 </style>
 </head>
@@ -280,6 +439,7 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
       </div>
     </div>
 
+    <div class="logwrap">
     <aside class="log" aria-label="A typical evening in the activity log">
       <header><span class="label">Activity log · a typical evening</span><span class="label">replay · anonymised</span></header>
       <ol>
@@ -294,6 +454,8 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
       </ol>
       <footer>Every money decision stops at an orange line for me.</footer>
     </aside>
+      <div class="ping" aria-hidden="true"><div class="ph"><span>Decision queue</span><span>now</span></div><b>Refund over policy</b><p>Reply drafted. Send it?</p><div class="pb"><span class="y">Approve</span><span>Decline</span></div></div>
+    </div>
   </header>
 
   <div class="stats" role="list" aria-label="Key numbers">
@@ -349,75 +511,194 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
 
     <div class="cases">
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Operations</span><h3>Orders delivered in seconds, not hours</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>Digital orders arrive day and night. Buyers expect them instantly, and late delivery means bad feedback and refunds.</p></div>
           <div><h4>What I built</h4><p>A delivery service that watches for paid orders, picks the right item from tested stock, sends it with clear instructions and marks the order dispatched. A guard ships anything still open an hour before its deadline and skips known bad actors.</p></div>
           <div class="result"><h4>What changed</h4><p>Most orders are fulfilled in under a minute, 24/7, including while I sleep. No missed dispatch deadlines.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="800,1000,800,900,2800"><svg viewBox="0 0 400 250" role="img" aria-label="An order is paid, the delivery agent sends the item and the buyer has it 41 seconds later">
+<path class="wire" d="M132 112H172M228 112H268"/>
+<rect class="card" x="22" y="72" width="110" height="80" rx="12"/>
+<text x="36" y="95" class="dim">New order</text>
+<rect x="36" y="104" width="62" height="6" rx="3" fill="rgba(255,255,255,.14)"/><rect x="36" y="116" width="42" height="6" rx="3" fill="rgba(255,255,255,.14)"/>
+<g class="h a1"><rect x="36" y="129" width="46" height="16" rx="8" fill="rgba(61,255,180,.18)"/><text x="59" y="140.500" text-anchor="middle" class="mint sm">PAID</text></g>
+<circle cx="200" cy="112" r="28" class="card"/>
+<circle cx="200" cy="112" r="28" class="spin h a2 g3" fill="none" stroke="#3dffb4" stroke-width="2.2" stroke-dasharray="44 132"/>
+<circle cx="200" cy="112" r="28" class="h a3" fill="none" stroke="#3dffb4" stroke-width="1.6"/>
+<text x="200" y="116" text-anchor="middle" class="mint sm">agent</text>
+<text x="200" y="160" text-anchor="middle" class="dim sm">picks tested stock</text>
+<circle class="pk p1" cx="132" cy="112" r="5"/><circle class="pk p2" cx="228" cy="112" r="5"/>
+<rect class="card" x="268" y="72" width="110" height="80" rx="12"/>
+<text x="282" y="95" class="dim">Buyer</text>
+<g class="h a4 up"><text x="282" y="117">Item received</text><text x="282" y="136" class="mint">✓ 41 seconds</text></g>
+<rect x="22" y="194" width="356" height="4" rx="2" fill="rgba(255,255,255,.1)"/>
+<rect class="bar1" x="22" y="194" width="356" height="4" rx="2" fill="#3dffb4"/>
+<text x="22" y="218" class="dim sm">paid</text>
+<text x="378" y="218" text-anchor="end" class="h a5 mint sm">marked dispatched ✓</text></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Pricing</span><h3>Supplier costs that can't quietly eat the margin</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>I buy stock from marketplaces where prices move daily. Items that were profitable last week were selling at a loss before I noticed.</p></div>
           <div><h4>What I built</h4><p>Cost guards for each product line that read live supplier prices, run them through one VAT-aware profit formula, and raise the selling price when margin drops under target. Big jumps become a card for me to confirm. They never lower prices on their own.</p></div>
           <div class="result"><h4>What changed</h4><p>Every order clears a minimum profit after fees, VAT and cost. Loss-makers are caught within hours, not at month end.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="1100,1700,1700,3000"><svg viewBox="0 0 400 250" role="img" aria-label="Supplier cost rises 16 percent, margin drops, and the selling price steps up to restore a 25 percent margin">
+<path d="M30 60H370M30 105H370M30 150H370M30 195H370" stroke="rgba(255,255,255,.07)"/>
+<path class="ln l1" pathLength="1" d="M30 90H150" stroke="#3dffb4"/>
+<path class="ln l2" pathLength="1" d="M150 90H240" stroke="#3dffb4"/>
+<path class="ln l3" pathLength="1" d="M240 90V58H370" stroke="#3dffb4"/>
+<path class="ln l1" pathLength="1" d="M30 180H150" stroke="#ffb347"/>
+<path class="ln l2" pathLength="1" d="M150 180L215 150H370" stroke="#ffb347"/>
+<text x="32" y="80" class="h a1 mint sm">your price</text>
+<text x="32" y="200" class="h a1 amb sm">supplier cost</text>
+<text x="222" y="170" class="h a2 amb sm">+16% overnight</text>
+<g class="h a2 g3"><rect x="262" y="108" width="100" height="24" rx="12" fill="rgba(255,107,107,.16)" stroke="rgba(255,107,107,.6)"/><text x="312" y="124" text-anchor="middle" class="red sm">margin 19%</text></g>
+<g class="h a3"><rect x="258" y="92" width="108" height="24" rx="12" class="pill"/><text x="312" y="108" text-anchor="middle" class="mint sm">margin 25% ✓</text></g>
+<text x="250" y="46" class="h a3 mint sm">raised automatically</text>
+<text x="30" y="232" class="dim sm">never lowers a price on its own</text></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Customer service</span><h3>Support that sounds like me</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>Most buyer messages are the same five questions. The rare hard ones (disputes, replacements) need care and context.</p></div>
           <div><h4>What I built</h4><p>An auto-reply assistant for routine questions, plus a support agent that pulls the buyer's order history and screenshots and drafts a reply in my tone from a file of my past answers. Standing rules let it act alone in narrow, safe cases.</p></div>
           <div class="result"><h4>What changed</h4><p>Routine questions get answered in minutes. I only read the messages that need judgement, and every answer I give teaches the next draft.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="1000,1700,1900,3200"><svg viewBox="0 0 400 250" role="img" aria-label="A buyer asks where their code is, the agent reads the order history and answers in two minutes">
+<g class="h a1 up"><rect x="24" y="30" width="150" height="34" rx="14" fill="rgba(255,255,255,.09)"/><text x="40" y="51">Where's my code?</text><text x="28" y="80" class="dim sm">buyer · 19:14</text></g>
+<g class="h a2 up"><rect class="card" x="236" y="26" width="140" height="62" rx="10"/><text x="248" y="44" class="dim sm">order history</text><text x="248" y="61" class="sm">paid ✓</text><text x="248" y="77" class="sm">sent 18:02 ✓</text><rect class="spin" x="352" y="34" width="10" height="10" rx="2" fill="none" stroke="#3dffb4" stroke-width="1.5"/></g>
+<g class="h a2 g3"><rect x="306" y="112" width="70" height="30" rx="14" fill="rgba(61,255,180,.14)"/><circle class="ty" cx="327" cy="127" r="3.2" fill="#3dffb4"/><circle class="ty t2" cx="341" cy="127" r="3.2" fill="#3dffb4"/><circle class="ty t3" cx="355" cy="127" r="3.2" fill="#3dffb4"/></g>
+<g class="h a3 up"><rect x="138" y="106" width="238" height="54" rx="14" fill="rgba(61,255,180,.14)" stroke="rgba(61,255,180,.45)"/><text x="154" y="128">It was sent at 18:02 - it's in</text><text x="154" y="146">your eBay messages ✓</text><text x="376" y="176" text-anchor="end" class="dim sm">agent · 19:16</text></g>
+<g class="h a4 up"><rect class="pill" x="76.8" y="204" width="246.5" height="22" rx="11"/><text x="200" y="219" text-anchor="middle" class="mint sm">answered in 2 min · no human needed</text></g></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Quality control</span><h3>Testing stock before customers find the problem</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>Some supplier batches arrive with bad items. Selling them costs refunds, reputation and time.</p></div>
           <div><h4>What I built</h4><p>A browser-driven tester that checks every incoming batch, resumes where it stopped, sorts results, and only releases good stock. Bad batches are grouped per supplier order with screenshots, ready for a refund claim.</p></div>
           <div class="result"><h4>What changed</h4><p>Problems are found by me, not my buyers. Supplier claims take minutes, and a supplier quality history decides who I buy from next.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="1800,1900,3200"><svg viewBox="0 0 400 250" role="img" aria-label="A batch of 32 items is tested one by one; 27 good ones are released to stock and 5 bad ones go into a refund claim">
+<text x="28" y="44" class="dim">incoming batch · 32 items</text>
+<rect class="sq c0" x="28" y="62" width="20" height="20" rx="5"/><rect class="sq c1" x="54" y="62" width="20" height="20" rx="5"/><rect class="sq c2" x="80" y="62" width="20" height="20" rx="5"/><rect class="sq c3" x="106" y="62" width="20" height="20" rx="5"/><rect class="sq c4" x="132" y="62" width="20" height="20" rx="5"/><rect class="sq c5 bad" x="158" y="62" width="20" height="20" rx="5"/><rect class="sq c6" x="184" y="62" width="20" height="20" rx="5"/><rect class="sq c7" x="210" y="62" width="20" height="20" rx="5"/><rect class="sq c0" x="28" y="88" width="20" height="20" rx="5"/><rect class="sq c1" x="54" y="88" width="20" height="20" rx="5"/><rect class="sq c2" x="80" y="88" width="20" height="20" rx="5"/><rect class="sq c3 bad" x="106" y="88" width="20" height="20" rx="5"/><rect class="sq c4" x="132" y="88" width="20" height="20" rx="5"/><rect class="sq c5" x="158" y="88" width="20" height="20" rx="5"/><rect class="sq c6" x="184" y="88" width="20" height="20" rx="5"/><rect class="sq c7" x="210" y="88" width="20" height="20" rx="5"/><rect class="sq c0" x="28" y="114" width="20" height="20" rx="5"/><rect class="sq c1" x="54" y="114" width="20" height="20" rx="5"/><rect class="sq c2 bad" x="80" y="114" width="20" height="20" rx="5"/><rect class="sq c3" x="106" y="114" width="20" height="20" rx="5"/><rect class="sq c4" x="132" y="114" width="20" height="20" rx="5"/><rect class="sq c5" x="158" y="114" width="20" height="20" rx="5"/><rect class="sq c6 bad" x="184" y="114" width="20" height="20" rx="5"/><rect class="sq c7" x="210" y="114" width="20" height="20" rx="5"/><rect class="sq c0" x="28" y="140" width="20" height="20" rx="5"/><rect class="sq c1" x="54" y="140" width="20" height="20" rx="5"/><rect class="sq c2" x="80" y="140" width="20" height="20" rx="5"/><rect class="sq c3" x="106" y="140" width="20" height="20" rx="5"/><rect class="sq c4" x="132" y="140" width="20" height="20" rx="5"/><rect class="sq c5 bad" x="158" y="140" width="20" height="20" rx="5"/><rect class="sq c6" x="184" y="140" width="20" height="20" rx="5"/><rect class="sq c7" x="210" y="140" width="20" height="20" rx="5"/>
+<rect class="scan" x="24" y="56" width="3" height="110" rx="1.5"/>
+<rect class="card" x="262" y="34" width="114" height="62" rx="10"/>
+<text x="274" y="56" class="dim sm">good</text>
+<g class="h a2"><text x="274" y="80" class="mint" style="font-size:15px">27</text><text x="298" y="80" class="sm">to stock ✓</text></g>
+<rect class="card" x="262" y="108" width="114" height="68" rx="10"/>
+<text x="274" y="130" class="dim sm">bad</text>
+<text x="368" y="130" text-anchor="end" class="h a2 red sm">refund claim</text>
+<rect class="h a2 d1" x="274" y="150" width="14" height="14" rx="4" fill="#ff6b6b"/><rect class="h a2 d2" x="293" y="150" width="14" height="14" rx="4" fill="#ff6b6b"/><rect class="h a2 d3" x="312" y="150" width="14" height="14" rx="4" fill="#ff6b6b"/><rect class="h a2 d4" x="331" y="150" width="14" height="14" rx="4" fill="#ff6b6b"/><rect class="h a2 d5" x="350" y="150" width="14" height="14" rx="4" fill="#ff6b6b"/>
+<g class="h a3 up"><rect class="pill" x="95.7" y="208" width="208.7" height="22" rx="11"/><text x="200" y="223" text-anchor="middle" class="mint sm">found by me, not by my buyers</text></g></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Management</span><h3>A business that briefs me every morning</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>Four businesses produce hundreds of small alerts a day. Reading all of them is a job in itself.</p></div>
           <div><h4>What I built</h4><p>A decision queue on my phone with two speeds (urgent cards push, everything else waits for one 07:30 digest) and a daily dashboard covering P&amp;L, margins, campaigns, stock and to-dos. A state page gives a fresh AI session full context in one read.</p></div>
           <div class="result"><h4>What changed</h4><p>I start the day with one page and a short list of yes/no decisions instead of an inbox.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="1700,1000,900,900,3000"><svg viewBox="0 0 400 250" role="img" aria-label="Hundreds of alerts are boiled down to two yes or no cards on a phone, which are answered with a tap each">
+<text x="22" y="32" class="dim">hundreds of alerts a day</text>
+<rect class="al d0" x="104" y="86" width="46" height="8" rx="4"/><rect class="al d1" x="34" y="66" width="22" height="8" rx="4"/><rect class="al d2" x="115" y="197" width="22" height="8" rx="4"/><rect class="al d3" x="76" y="57" width="22" height="8" rx="4"/><rect class="al d4" x="133" y="155" width="22" height="8" rx="4"/><rect class="al d5" x="83" y="71" width="46" height="8" rx="4"/><rect class="al d0" x="37" y="192" width="22" height="8" rx="4"/><rect class="al d1" x="79" y="197" width="22" height="8" rx="4"/><rect class="al d2" x="123" y="60" width="30" height="8" rx="4"/><rect class="al d3" x="33" y="190" width="30" height="8" rx="4"/><rect class="al d4" x="96" y="155" width="30" height="8" rx="4"/><rect class="al d5" x="52" y="194" width="38" height="8" rx="4"/><rect class="al d0" x="68" y="74" width="30" height="8" rx="4"/><rect class="al d1" x="117" y="72" width="22" height="8" rx="4"/><rect class="al d2" x="37" y="100" width="46" height="8" rx="4"/><rect class="al d3" x="131" y="128" width="46" height="8" rx="4"/><rect class="al d4" x="138" y="140" width="38" height="8" rx="4"/><rect class="al d5" x="85" y="94" width="30" height="8" rx="4"/><rect class="al d0" x="42" y="195" width="38" height="8" rx="4"/><rect class="al d1" x="148" y="135" width="46" height="8" rx="4"/><rect class="al d2" x="95" y="66" width="22" height="8" rx="4"/><rect class="al d3" x="129" y="90" width="38" height="8" rx="4"/>
+<rect class="card" x="236" y="16" width="142" height="218" rx="22"/>
+<rect x="288" y="24" width="38" height="5" rx="2.5" fill="rgba(255,255,255,.2)"/>
+<g class="h a1 d2"><g class="sl cA"><rect x="248" y="42" width="118" height="50" rx="10" fill="rgba(255,179,71,.14)" stroke="rgba(255,179,71,.6)"/><text x="258" y="60" class="sm">Refund over policy?</text>
+ <g class="yA"><rect class="yes" x="258" y="68" width="44" height="16" rx="8"/><text class="yt sm" x="280" y="79.500" text-anchor="middle">yes</text></g><rect x="308" y="68" width="44" height="16" rx="8" fill="none" stroke="rgba(255,255,255,.25)"/><text class="dim sm" x="330" y="79.500" text-anchor="middle">no</text></g></g>
+<g class="h a1 d3"><g class="sl cB"><rect x="248" y="100" width="118" height="50" rx="10" fill="rgba(255,179,71,.14)" stroke="rgba(255,179,71,.6)"/><text x="258" y="118" class="sm">Raise price +60%?</text>
+ <g class="yB"><rect class="yes" x="258" y="126" width="44" height="16" rx="8"/><text class="yt sm" x="280" y="137.500" text-anchor="middle">yes</text></g><rect x="308" y="126" width="44" height="16" rx="8" fill="none" stroke="rgba(255,255,255,.25)"/><text class="dim sm" x="330" y="137.500" text-anchor="middle">no</text></g></g>
+<g class="h a1 d4"><g class="sl cC"><rect class="card" x="248" y="158" width="118" height="34" rx="10"/><text x="258" y="179" class="dim sm">07:30 digest · 14 items</text></g></g>
+<g class="h a4 d2"><text x="307" y="76" text-anchor="middle" class="mint" style="font-size:13px">all clear ✓</text><text x="307" y="212" text-anchor="middle" class="dim sm">2 decisions · 8 seconds</text></g></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Sales &amp; marketing</span><h3>From "what should I sell?" to live in 12 markets</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>Launching a product line meant days of research, image work and copying listings between countries.</p></div>
           <div><h4>What I built</h4><p>Research agents that compare sold demand with supplier cost and margin. An image pipeline that finds artwork, cleans it up with ChatGPT and renders it on a house template. A builder that creates multi-variation listings and copies them to 10 international sites.</p></div>
           <div class="result"><h4>What changed</h4><p>A new game's range can go from idea to approved brief to live listings in a day, with every price checked against real cost first.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="1800,2500,3200"><svg viewBox="0 0 400 250" role="img" aria-label="One approved brief is checked for demand, images and price, then goes live on twelve marketplaces">
+<defs><linearGradient id="lg6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3dffb4" stop-opacity=".55"/><stop offset="1" stop-color="#a98bff" stop-opacity=".5"/></linearGradient></defs>
+<text x="22" y="44" class="dim">one approved brief</text>
+<rect class="card" x="22" y="56" width="108" height="92" rx="12"/>
+<rect x="34" y="68" width="84" height="44" rx="7" fill="url(#lg6)"/>
+<rect x="34" y="120" width="60" height="6" rx="3" fill="rgba(255,255,255,.16)"/><rect x="34" y="132" width="38" height="6" rx="3" fill="rgba(255,255,255,.16)"/>
+<text x="24" y="172" class="h a1 mint sm">✓ demand vs cost</text>
+<text x="24" y="190" class="h a1 d2 mint sm">✓ images rendered</text>
+<text x="24" y="208" class="h a1 d4 mint sm">✓ price clears margin</text>
+<path class="wire" d="M130 102H168"/>
+<text x="168" y="44" class="dim">marketplaces</text>
+<g class="chip"><rect class="d0" style="transition-delay:0.00s" x="168" y="62" width="46" height="30" rx="8"/><text style="transition-delay:0.00s" x="191" y="81" text-anchor="middle">UK</text></g><g class="chip"><rect class="d1" style="transition-delay:0.13s" x="222" y="62" width="46" height="30" rx="8"/><text style="transition-delay:0.13s" x="245" y="81" text-anchor="middle">US</text></g><g class="chip"><rect class="d2" style="transition-delay:0.26s" x="276" y="62" width="46" height="30" rx="8"/><text style="transition-delay:0.26s" x="299" y="81" text-anchor="middle">DE</text></g><g class="chip"><rect class="d3" style="transition-delay:0.39s" x="330" y="62" width="46" height="30" rx="8"/><text style="transition-delay:0.39s" x="353" y="81" text-anchor="middle">FR</text></g><g class="chip"><rect class="d4" style="transition-delay:0.52s" x="168" y="100" width="46" height="30" rx="8"/><text style="transition-delay:0.52s" x="191" y="119" text-anchor="middle">IT</text></g><g class="chip"><rect class="d5" style="transition-delay:0.65s" x="222" y="100" width="46" height="30" rx="8"/><text style="transition-delay:0.65s" x="245" y="119" text-anchor="middle">ES</text></g><g class="chip"><rect class="d0" style="transition-delay:0.78s" x="276" y="100" width="46" height="30" rx="8"/><text style="transition-delay:0.78s" x="299" y="119" text-anchor="middle">NL</text></g><g class="chip"><rect class="d1" style="transition-delay:0.91s" x="330" y="100" width="46" height="30" rx="8"/><text style="transition-delay:0.91s" x="353" y="119" text-anchor="middle">BE</text></g><g class="chip"><rect class="d2" style="transition-delay:1.04s" x="168" y="138" width="46" height="30" rx="8"/><text style="transition-delay:1.04s" x="191" y="157" text-anchor="middle">AT</text></g><g class="chip"><rect class="d3" style="transition-delay:1.17s" x="222" y="138" width="46" height="30" rx="8"/><text style="transition-delay:1.17s" x="245" y="157" text-anchor="middle">CH</text></g><g class="chip"><rect class="d4" style="transition-delay:1.30s" x="276" y="138" width="46" height="30" rx="8"/><text style="transition-delay:1.30s" x="299" y="157" text-anchor="middle">AU</text></g><g class="chip"><rect class="d5" style="transition-delay:1.43s" x="330" y="138" width="46" height="30" rx="8"/><text style="transition-delay:1.43s" x="353" y="157" text-anchor="middle">CA</text></g>
+<g class="h a3 up"><rect class="pill" x="168.7" y="190" width="208.7" height="22" rx="11"/><text x="273" y="205" text-anchor="middle" class="mint sm">live in 12 markets · same day</text></g></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Content</span><h3>A video studio for a one-person channel</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>A guide channel lives on volume and speed after a big game launch. Editing alone was the bottleneck.</p></div>
           <div><h4>What I built</h4><p>A pipeline that cuts silences and repeated takes, adds captions, blurs swearing, splits facecam and gameplay into vertical Shorts, drafts thumbnails and SEO titles, and schedules uploads through the YouTube API, spaced through the day with the strongest video in the best slot. TikTok gets the same clips on its own schedule.</p></div>
           <div class="result"><h4>What changed</h4><p>400+ videos and Shorts published across two channels. I record and approve; the edit, upload and schedule happen without me.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="1100,1300,1700,2000,3000"><svg viewBox="0 0 400 250" role="img" aria-label="Silences are cut from a raw recording, captions are added, a vertical Short is made and uploads are spread through the day">
+<text x="24" y="28" class="dim">raw recording</text>
+<rect class="card" x="24" y="38" width="352" height="48" rx="9"/>
+<g class="blk b1"><rect x="30" y="54.5" width="3" height="15" rx="1.5"/><rect x="35" y="49.0" width="3" height="26" rx="1.5"/><rect x="40" y="49.5" width="3" height="25" rx="1.5"/><rect x="45" y="56.0" width="3" height="12" rx="1.5"/><rect x="50" y="52.5" width="3" height="19" rx="1.5"/><rect x="55" y="48.5" width="3" height="27" rx="1.5"/><rect x="60" y="50.5" width="3" height="23" rx="1.5"/><rect x="65" y="48.0" width="3" height="28" rx="1.5"/><rect x="70" y="49.0" width="3" height="26" rx="1.5"/><rect x="75" y="57.0" width="3" height="10" rx="1.5"/><rect x="80" y="48.5" width="3" height="27" rx="1.5"/><rect x="85" y="58.0" width="3" height="8" rx="1.5"/><rect x="90" y="50.5" width="3" height="23" rx="1.5"/><rect x="95" y="54.0" width="3" height="16" rx="1.5"/></g><g class="blk b2"><rect x="140" y="49.5" width="3" height="25" rx="1.5"/><rect x="145" y="54.5" width="3" height="15" rx="1.5"/><rect x="150" y="55.0" width="3" height="14" rx="1.5"/><rect x="155" y="47.0" width="3" height="30" rx="1.5"/><rect x="160" y="50.5" width="3" height="23" rx="1.5"/><rect x="165" y="49.5" width="3" height="25" rx="1.5"/><rect x="170" y="49.5" width="3" height="25" rx="1.5"/><rect x="175" y="50.5" width="3" height="23" rx="1.5"/><rect x="180" y="52.0" width="3" height="20" rx="1.5"/><rect x="185" y="48.0" width="3" height="28" rx="1.5"/><rect x="190" y="56.0" width="3" height="12" rx="1.5"/><rect x="195" y="54.5" width="3" height="15" rx="1.5"/><rect x="200" y="48.0" width="3" height="28" rx="1.5"/><rect x="205" y="56.0" width="3" height="12" rx="1.5"/><rect x="210" y="50.0" width="3" height="24" rx="1.5"/></g><g class="blk b3"><rect x="265" y="52.0" width="3" height="20" rx="1.5"/><rect x="270" y="58.0" width="3" height="8" rx="1.5"/><rect x="275" y="47.5" width="3" height="29" rx="1.5"/><rect x="280" y="57.0" width="3" height="10" rx="1.5"/><rect x="285" y="55.5" width="3" height="13" rx="1.5"/><rect x="290" y="49.0" width="3" height="26" rx="1.5"/><rect x="295" y="57.5" width="3" height="9" rx="1.5"/><rect x="300" y="53.5" width="3" height="17" rx="1.5"/><rect x="305" y="58.0" width="3" height="8" rx="1.5"/><rect x="310" y="54.0" width="3" height="16" rx="1.5"/><rect x="315" y="50.5" width="3" height="23" rx="1.5"/></g><g class="blk b4"><rect x="345" y="48.5" width="3" height="27" rx="1.5"/><rect x="350" y="52.0" width="3" height="20" rx="1.5"/><rect x="355" y="47.0" width="3" height="30" rx="1.5"/><rect x="360" y="51.5" width="3" height="21" rx="1.5"/><rect x="365" y="52.0" width="3" height="20" rx="1.5"/></g>
+<rect x="100" y="61" width="40" height="2" fill="rgba(255,255,255,.25)" class="g2"/><rect x="215" y="61" width="50" height="2" fill="rgba(255,255,255,.25)" class="g2"/><rect x="320" y="61" width="25" height="2" fill="rgba(255,255,255,.25)" class="g2"/>
+<rect class="cut" x="100" y="42" width="40" height="40" rx="4"/><rect class="cut" x="215" y="42" width="50" height="40" rx="4"/><rect class="cut" x="320" y="42" width="25" height="40" rx="4"/>
+<text x="376" y="28" text-anchor="end" class="h a1 g2 red sm">silences found</text>
+<text x="376" y="28" text-anchor="end" class="h a2 mint sm">cut ✓</text>
+<g class="h a3 up"><rect x="24" y="98" width="232" height="24" rx="8" fill="rgba(255,255,255,.07)"/><text x="36" y="114" class="sm">captions ✓   swearing blurred ✓</text></g>
+<g class="h a3 d2 up"><rect x="304" y="98" width="64" height="112" rx="9" fill="rgba(61,255,180,.08)" stroke="#3dffb4" stroke-width="1.4"/><rect x="310" y="104" width="52" height="40" rx="5" fill="rgba(169,139,255,.35)"/><rect x="310" y="148" width="52" height="56" rx="5" fill="rgba(61,255,180,.25)"/><text x="336" y="128" text-anchor="middle" class="sm">cam</text><text x="336" y="180" text-anchor="middle" class="sm">game</text><text x="336" y="228" text-anchor="middle" class="dim sm">Short 9:16</text></g>
+<g class="h a4"><text x="24" y="156" class="dim sm">today's uploads</text><path d="M30 186H248" stroke="rgba(255,255,255,.2)"/><text x="24" y="214" class="dim sm">12:00</text><text x="256" y="214" text-anchor="end" class="dim sm">00:00</text></g>
+<circle class="h a4 d0" cx="44" cy="186" r="4" fill="rgba(61,255,180,.55)"/><circle class="h a4 d1" cx="82" cy="186" r="4" fill="rgba(61,255,180,.55)"/><circle class="h a4 d2" cx="120" cy="186" r="4" fill="rgba(61,255,180,.55)"/><circle class="h a4 d3" cx="158" cy="186" r="6" fill="#3dffb4"/><circle class="h a4 d4" cx="196" cy="186" r="4" fill="rgba(61,255,180,.55)"/><circle class="h a4 d5" cx="234" cy="186" r="4" fill="rgba(61,255,180,.55)"/>
+<text x="158" y="170" text-anchor="middle" class="h a4 d4 mint sm">★ best slot</text></svg></div>
       </article>
 
       <article class="case">
+        <div class="text">
         <div class="meta"><span class="area">Finance</span><h3>Books that keep themselves</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>VAT registration changed the profit maths overnight, across two currencies and a dozen marketplaces.</p></div>
           <div><h4>What I built</h4><p>One shared profit formula (sale, fees, VAT reclaim, cost) used by every report and guard. A P&amp;L built from the marketplace finance feed, with supplier purchases linked to the orders they fulfilled and a weekly ad-spend review.</p></div>
           <div class="result"><h4>What changed</h4><p>Profit is calculated the same way everywhere, every day. Unlinked purchases and losing campaigns show up as to-dos, not surprises.</p></div>
         </div>
+        </div>
+        <div class="demo" data-steps="650,650,650,650,900,3200"><svg viewBox="0 0 400 250" role="img" aria-label="A waterfall: the sale, minus fees, minus VAT, minus cost, leaves the profit - the same formula in every report">
+<text x="38" y="30" class="dim">one formula, every order</text>
+<path d="M30 200H370" stroke="rgba(255,255,255,.2)"/>
+<rect class="gb a1" x="42" y="50" width="48" height="150" rx="5" fill="rgba(255,255,255,.24)"/>
+<rect class="gt a2" x="110" y="50" width="48" height="22" rx="5" fill="#ff7b7b"/>
+<rect class="gt a3" x="178" y="72" width="48" height="26" rx="5" fill="#ffb347"/>
+<rect class="gt a4" x="246" y="98" width="48" height="62" rx="5" fill="#a98bff"/>
+<rect class="gb a5" x="314" y="160" width="48" height="40" rx="5" fill="#3dffb4" style="filter:drop-shadow(0 0 10px rgba(61,255,180,.7))"/>
+<path class="wire h a2" d="M90 50H110"/><path class="wire h a3" d="M158 72H178"/><path class="wire h a4" d="M226 98H246"/><path class="wire h a5" d="M294 160H314"/>
+<text x="66" y="220" text-anchor="middle" class="h a1 sm">sale</text>
+<text x="134" y="220" text-anchor="middle" class="h a2 red sm">− fees</text>
+<text x="202" y="220" text-anchor="middle" class="h a3 amb sm">− VAT</text>
+<text x="270" y="220" text-anchor="middle" class="h a4 sm" style="fill:#c3b0ff">− cost</text>
+<text x="338" y="220" text-anchor="middle" class="h a5 mint sm">= profit</text>
+<text x="370" y="30" text-anchor="end" class="h a6 mint sm">same maths in every report ✓</text></svg></div>
       </article>
     </div>
   </div>
@@ -487,12 +768,12 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
     <h2 style="margin-top:10px">Trustworthy beats clever.</h2>
     <p class="lede" style="margin-top:16px">The part small business owners ask about first is "what if it gets it wrong?". These are the rules every agent of mine follows.</p>
     <div class="rails">
-      <div class="rail"><h3>Money waits for a human</h3><p>Purchases, refunds, price cuts, new listings and ad changes are prepared by AI and approved by me in one tap. Agents can raise prices to protect margin; they can't lower them.</p></div>
-      <div class="rail"><h3>Secrets stay secret</h3><p>Agents never sign in for me, never see passwords and never print keys or product codes in full. Credentials live in files the AI is told never to open.</p></div>
-      <div class="rail"><h3>Everything is reversible</h3><p>Scripts are version-controlled and committed before any change; data files are backed up first. Every automatic action is logged with the reason.</p></div>
-      <div class="rail"><h3>Untrusted input is just data</h3><p>Customer messages, web pages and files never count as instructions. A buyer can't talk an agent into a refund.</p></div>
-      <div class="rail"><h3>Quiet by default</h3><p>Only urgent cards interrupt me. Everything else waits for the morning digest, and informational alerts expire after a day.</p></div>
-      <div class="rail"><h3>Small, boring pieces</h3><p>Each agent has one job and a written list of standing rules. When something breaks, it breaks small and it's obvious where.</p></div>
+      <div class="rail"><svg class="ri" viewBox="0 0 44 44" aria-hidden="true"><rect class="o" x="5" y="9" width="34" height="26" rx="6"/><path class="l" d="M12 18h12M12 24h7"/><circle class="as pulse" cx="30" cy="25" r="4"/><circle class="a" cx="30" cy="25" r="4"/></svg><h3>Money waits for a human</h3><p>Purchases, refunds, price cuts, new listings and ad changes are prepared by AI and approved by me in one tap. Agents can raise prices to protect margin; they can't lower them.</p></div>
+      <div class="rail"><svg class="ri" viewBox="0 0 44 44" aria-hidden="true"><path class="m hop" d="M15 21v-6a7 7 0 0 1 14 0v6"/><rect class="o" x="10" y="21" width="24" height="17" rx="5"/><circle class="f" cx="16.500" cy="29.500" r="1.7"/><circle class="f" cx="22" cy="29.500" r="1.7"/><circle class="f" cx="27.500" cy="29.500" r="1.7"/></svg><h3>Secrets stay secret</h3><p>Agents never sign in for me, never see passwords and never print keys or product codes in full. Credentials live in files the AI is told never to open.</p></div>
+      <div class="rail"><svg class="ri" viewBox="0 0 44 44" aria-hidden="true"><g class="undo"><path class="m" d="M11 22a11 11 0 1 0 4-8.500"/><path class="m" d="M9 8v7h7"/></g></svg><h3>Everything is reversible</h3><p>Scripts are version-controlled and committed before any change; data files are backed up first. Every automatic action is logged with the reason.</p></div>
+      <div class="rail"><svg class="ri" viewBox="0 0 44 44" aria-hidden="true"><path class="o" d="M27 6l11 4v10c0 8-5 13-11 16-6-3-11-8-11-16V10z"/><path class="m" d="M22 21l4 4 7-8"/><circle class="a hit" cx="9" cy="20" r="3.5"/></svg><h3>Untrusted input is just data</h3><p>Customer messages, web pages and files never count as instructions. A buyer can't talk an agent into a refund.</p></div>
+      <div class="rail"><svg class="ri" viewBox="0 0 44 44" aria-hidden="true"><g class="ring"><path class="o" d="M22 8a9 9 0 0 0-9 9v7l-3 5h24l-3-5v-7a9 9 0 0 0-9-9z"/><path class="m" d="M19 33a3 3 0 0 0 6 0"/></g><text class="zz" x="34" y="12" style="font:600 10px var(--mono);fill:var(--flag)">z</text></svg><h3>Quiet by default</h3><p>Only urgent cards interrupt me. Everything else waits for the morning digest, and informational alerts expire after a day.</p></div>
+      <div class="rail"><svg class="ri" viewBox="0 0 44 44" aria-hidden="true"><rect class="f" x="7" y="7" width="13" height="13" rx="3.500" opacity=".85"/><rect class="f fix" x="24" y="7" width="13" height="13" rx="3.500"/><rect class="f" x="7" y="24" width="13" height="13" rx="3.500" opacity=".85"/><rect class="f" x="24" y="24" width="13" height="13" rx="3.500" opacity=".85"/></svg><h3>Small, boring pieces</h3><p>Each agent has one job and a written list of standing rules. When something breaks, it breaks small and it's obvious where.</p></div>
     </div>
   </div>
 </section>
@@ -543,21 +824,46 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
 <script>
 (function(){
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
   var $ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var one = function(s, r){ return (r || document).querySelector(s); };
+  /* run fn(true/false) as el enters/leaves the viewport */
+  function watch(el, fn, th){
+    if (!hasIO) { fn(true); return; }
+    new IntersectionObserver(function(es){ fn(es[0].isIntersecting); }, { threshold: th || 0.25 }).observe(el);
+  }
 
-  /* table filter */
-  var btns = $('.filters button'), rows = $('#inv tbody tr');
+  /* ---------- inventory: filter + live automatic/approve mix ---------- */
+  var btns = $('.filters button'), rows = $('#inv tbody tr'), filters = one('.filters');
+  var mix = null;
+  if (filters) {
+    mix = document.createElement('div'); mix.className = 'mix';
+    mix.innerHTML = '<span class="bar" aria-hidden="true"><i></i></span><span><b class="na">0</b> run on their own · <b class="nw w">0</b> wait for my OK</span>';
+    filters.parentNode.insertBefore(mix, filters.nextSibling);
+  }
+  function tally(){
+    if (!mix) return;
+    var vis = rows.filter(function(r){ return !r.hidden; });
+    var a = vis.filter(function(r){ return r.querySelector('.pill.auto'); }).length;
+    one('.na', mix).textContent = a; one('.nw', mix).textContent = vis.length - a;
+    one('.bar i', mix).style.width = (vis.length ? a / vis.length * 100 : 0) + '%';
+  }
   btns.forEach(function(b){
     b.addEventListener('click', function(){
-      var f = b.getAttribute('data-f');
+      var f = b.getAttribute('data-f'), n = 0;
       btns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      rows.forEach(function(r){ r.hidden = !(f === 'all' || r.getAttribute('data-a') === f); });
+      rows.forEach(function(r){
+        r.hidden = !(f === 'all' || r.getAttribute('data-a') === f);
+        if (!r.hidden && !calm) { r.style.animation = 'none'; void r.offsetWidth; r.style.animation = 'rowin .4s ' + (Math.min(n++, 14) * 22) + 'ms both'; }
+      });
+      tally();
     });
   });
+  if (mix) watch(mix, function(on){ if (on) tally(); }, 0.5);
 
-  /* scroll progress + active nav link */
-  var prog = document.querySelector('.prog'), links = $('.top nav a');
-  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  /* ---------- scroll progress + active nav link ---------- */
+  var prog = one('.prog'), links = $('.top nav a');
+  var secs = links.map(function(a){ return one(a.getAttribute('href')); });
   function onScroll(){
     var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
     if (prog) prog.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
@@ -568,7 +874,7 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* cursor spotlight on cards */
+  /* ---------- cursor spotlight on cards ---------- */
   $('.stat,.case,.rail,.step,.node,.who-for div').forEach(function(el){
     el.classList.add('glow');
     el.addEventListener('pointermove', function(e){
@@ -578,23 +884,39 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
     });
   });
 
-  /* tools marquee */
-  var stack = document.querySelector('.stack');
+  /* ---------- stat mini visuals ---------- */
+  var statsBox = one('.stats');
+  $('.stat').forEach(function(st, i){
+    var v = document.createElement('div'), k, n, e;
+    v.setAttribute('aria-hidden', 'true');
+    function add(count, fn){ for (k = 0; k < count; k++) { e = document.createElement('i'); if (fn) fn(e, k); v.appendChild(e); } }
+    if (i === 0) { v.className = 'viz flow'; add(5, function(e, k){ e.style.animationDelay = (k * 0.56) + 's'; }); }
+    else if (i === 3) { v.className = 'viz film'; add(22); }
+    else if (i === 5) { v.className = 'viz code'; add(3, function(e, k){ e.style.setProperty('--w', [78, 46, 62][k] + '%'); e.style.animationDelay = (k * 0.35) + 's'; }); }
+    else {
+      n = parseInt(one('b', st).textContent, 10) || 12;
+      v.className = 'viz dots' + (n <= 20 ? ' big' : '');
+      add(n, function(e){ e.style.animationDelay = (Math.random() * 2.6).toFixed(2) + 's'; });
+    }
+    st.appendChild(v);
+  });
+  if (statsBox) watch(statsBox, function(on){ statsBox.classList.toggle('play', on); }, 0.1);
+  var railsBox = one('.rails');
+  if (railsBox) watch(railsBox, function(on){ railsBox.classList.toggle('play', on); }, 0.1);
+
+  /* ---------- tools marquee ---------- */
+  var stack = one('.stack');
   if (stack && !calm) {
     var g = document.createElement('div'); g.className = 'grp';
     while (stack.firstChild) g.appendChild(stack.firstChild);
     var g2 = g.cloneNode(true); g2.setAttribute('aria-hidden', 'true');
-    var g3 = g2.cloneNode(true);
-    stack.appendChild(g); stack.appendChild(g2); stack.appendChild(g3);
+    stack.appendChild(g); stack.appendChild(g2); stack.appendChild(g2.cloneNode(true));
     stack.classList.add('mq');
   }
 
-  if (!('IntersectionObserver' in window)) return;
-
-  /* reveal on scroll */
-  if (!calm) {
-    var groups = ['.stats .stat', '.map .node', '.cases .case', '.rails .rail', '.steps .step', '.who-for div'];
-    groups.forEach(function(sel){
+  /* ---------- reveal on scroll ---------- */
+  if (!calm && hasIO) {
+    ['.stats .stat', '.map .node', '.cases .case', '.rails .rail', '.steps .step', '.who-for div'].forEach(function(sel){
       $(sel).forEach(function(el, i){ el.classList.add('rv'); el.style.setProperty('--d', Math.min(i % 6, 5) * 70 + 'ms'); });
     });
     $('section h2, section .lede, .map-note, .inv-wrap, .filters, .foot').forEach(function(el){ el.classList.add('rv'); });
@@ -602,13 +924,11 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
       es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     $('.rv').forEach(function(el){ io.observe(el); });
-    /* once revealed, drop the stagger so hover feels instant */
     document.addEventListener('transitionend', function(e){ if (e.target.classList && e.target.classList.contains('on')) e.target.style.removeProperty('--d'); });
   }
 
-  /* count-up numbers */
-  var nums = $('.stat b');
-  if (!calm) {
+  /* ---------- count-up numbers ---------- */
+  if (!calm && hasIO) {
     var cio = new IntersectionObserver(function(es){
       es.forEach(function(e){
         if (!e.isIntersecting) return;
@@ -626,53 +946,164 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
         requestAnimationFrame(step);
       });
     }, { threshold: 0.4 });
-    nums.forEach(function(n){ cio.observe(n); });
+    $('.stat b').forEach(function(n){ cio.observe(n); });
   }
 
-  /* activity log replay */
-  var log = document.querySelector('.log');
+  /* ---------- hero: activity log replay + the decision card on the phone ---------- */
+  var log = one('.log'), wrap = one('.logwrap'), ping = one('.ping');
   if (log && !calm) {
-    var items = $('li', log), i = 0, timer = null;
+    var items = $('li', log), li = 0;
     log.classList.add('js');
     function next(){
-      if (i >= items.length) { timer = setTimeout(reset, 5200); return; }
+      if (li >= items.length) { setTimeout(reset, 5200); return; }
       items.forEach(function(x){ x.classList.remove('new'); });
-      items[i].classList.add('show', 'new');
-      i++;
-      timer = setTimeout(next, items[i - 1].classList.contains('human') ? 1700 : 950);
+      var it = items[li++], human = it.classList.contains('human');
+      it.classList.add('show', 'new');
+      if (human && ping) {
+        setTimeout(function(){ ping.classList.add('show'); }, 450);
+        setTimeout(function(){ ping.classList.add('tap'); }, 2100);
+        setTimeout(function(){ ping.classList.remove('show'); }, 3000);
+        setTimeout(function(){ ping.classList.remove('tap'); }, 3500);
+      }
+      setTimeout(next, human ? 3500 : 950);
     }
-    function reset(){ items.forEach(function(x){ x.classList.remove('show', 'new'); }); i = 0; timer = setTimeout(next, 700); }
-    timer = setTimeout(next, 900);
+    function reset(){ items.forEach(function(x){ x.classList.remove('show', 'new'); }); li = 0; setTimeout(next, 700); }
+    setTimeout(next, 900);
 
-    /* gentle tilt towards the pointer */
-    var hero = document.querySelector('.hero');
-    if (hero && window.matchMedia('(hover: hover) and (min-width: 981px)').matches) {
+    var hero = one('.hero');
+    if (hero && wrap && window.matchMedia('(hover: hover) and (min-width: 981px)').matches) {
       hero.addEventListener('pointermove', function(e){
-        var r = log.getBoundingClientRect();
+        var r = wrap.getBoundingClientRect();
         var dx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth, dy = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
-        log.style.setProperty('--ry', (dx * 9).toFixed(2) + 'deg');
-        log.style.setProperty('--rx', (-dy * 9).toFixed(2) + 'deg');
+        wrap.style.setProperty('--ry', (dx * 9).toFixed(2) + 'deg');
+        wrap.style.setProperty('--rx', (-dy * 9).toFixed(2) + 'deg');
       });
-      hero.addEventListener('pointerleave', function(){ log.style.setProperty('--ry', '0deg'); log.style.setProperty('--rx', '0deg'); });
+      hero.addEventListener('pointerleave', function(){ wrap.style.setProperty('--ry', '0deg'); wrap.style.setProperty('--rx', '0deg'); });
     }
   }
 
-  /* hero background: a network of agents passing work along, mint = automatic, amber = needs Jamie */
+  /* ---------- system map: trace one real journey at a time through the wiring ---------- */
+  var map = one('.map');
+  if (map) {
+    var cols = $('.col', map), sig = $('.node', cols[0]), ag = $('.node', cols[1]), out = $('.node', cols[2]);
+    var SC = [
+      [0, 0, 0, 'Order paid → delivery agent sends the item → done and logged'],
+      [1, 1, 1, 'Tricky buyer message → support drafts a reply → card on my phone'],
+      [2, 2, 0, 'Supplier price jumps → cost guard raises the listing → done and logged'],
+      [4, 3, 1, 'New game trending → listings and images drafted → card for my OK'],
+      [3, 4, 0, 'New recording lands → edited, captioned, scheduled → done and logged'],
+      [2, 2, 2, 'Overnight changes → summarised → on my morning dashboard']
+    ];
+    var trace = document.createElement('p'); trace.className = 'trace'; trace.setAttribute('aria-hidden', 'true');
+    trace.textContent = SC[0][3];
+    map.parentNode.insertBefore(trace, map.nextSibling);
+    var NS = 'http://www.w3.org/2000/svg', wires = null, hot = null, wired = false, mapOn = false, mt = [], k = 0;
+    function edge(a, b){
+      var x1 = a.offsetLeft + a.offsetWidth, y1 = a.offsetTop + a.offsetHeight / 2, x2 = b.offsetLeft, y2 = b.offsetTop + b.offsetHeight / 2, m = (x2 - x1) / 2;
+      return 'M' + x1 + ' ' + y1 + 'C' + (x1 + m) + ' ' + y1 + ' ' + (x2 - m) + ' ' + y2 + ' ' + x2 + ' ' + y2;
+    }
+    function build(){
+      if (wires) { wires.parentNode.removeChild(wires); wires = null; }
+      wired = window.innerWidth > 980 && !!document.createElementNS;
+      map.classList.toggle('wired', wired);
+      if (!wired) return;
+      wires = document.createElementNS(NS, 'svg'); wires.setAttribute('class', 'wires'); wires.setAttribute('aria-hidden', 'true');
+      map.insertBefore(wires, map.firstChild);
+      var seen = {};
+      SC.forEach(function(s){
+        s.d1 = edge(sig[s[0]], ag[s[1]]); s.d2 = edge(ag[s[1]], out[s[2]]);
+        [s.d1, s.d2].forEach(function(d){ if (seen[d]) return; seen[d] = 1; var p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); wires.appendChild(p); });
+      });
+      hot = document.createElementNS(NS, 'path'); hot.setAttribute('class', 'hot'); hot.style.opacity = 0; wires.appendChild(hot);
+    }
+    function pulse(d, amber){
+      if (!wired || !hot || !hot.animate) return;
+      hot.setAttribute('d', d); hot.setAttribute('class', 'hot' + (amber ? ' amb' : ''));
+      var len = hot.getTotalLength(); hot.style.opacity = 1; hot.style.strokeDasharray = '46 ' + (len + 60);
+      hot.animate([{ strokeDashoffset: 46 }, { strokeDashoffset: -len }], { duration: 800, easing: 'ease-in-out', fill: 'forwards' });
+    }
+    function later(fn, ms){ mt.push(setTimeout(fn, ms)); }
+    function unlit(){ $('.node.lit', map).forEach(function(n){ n.classList.remove('lit'); }); }
+    function run(){
+      if (!mapOn) return;
+      var s = SC[k % SC.length], amber = s[2] === 1; k++;
+      unlit();
+      trace.classList.add('swap');
+      later(function(){ trace.textContent = s[3]; trace.classList.toggle('amb', amber); trace.classList.remove('swap'); }, 260);
+      later(function(){ sig[s[0]].classList.add('lit'); pulse(s.d1, false); }, 300);
+      later(function(){ ag[s[1]].classList.add('lit'); pulse(s.d2, amber); }, 1150);
+      later(function(){ out[s[2]].classList.add('lit'); }, 2000);
+      later(run, 4200);
+    }
+    build();
+    var rz; window.addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(build, 200); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+    if (!calm) watch(map, function(on){
+      if (on === mapOn) return;
+      mapOn = on; mt.forEach(clearTimeout); mt = [];
+      if (on) run(); else unlit();
+    }, 0.3);
+  }
+
+  /* ---------- case studies: each scene plays its steps while on screen ---------- */
+  $('.demo').forEach(function(el){
+    var steps = (el.getAttribute('data-steps') || '').split(',').map(Number), i = 0, t = null, on = false, n;
+    if (calm || !hasIO) { for (n = 1; n <= steps.length; n++) el.classList.add('s' + n); return; }
+    function clear(){
+      el.classList.add('rst');
+      for (n = 1; n <= steps.length; n++) el.classList.remove('s' + n);
+      void el.getBoundingClientRect();
+      el.classList.remove('rst');
+    }
+    function tick(){
+      if (!on) return;
+      if (i >= steps.length) { clear(); i = 0; t = setTimeout(tick, 600); return; }
+      i++; el.classList.add('s' + i);
+      t = setTimeout(tick, steps[i - 1]);
+    }
+    watch(el, function(vis){
+      if (vis === on) return;
+      on = vis; clearTimeout(t); el.classList.toggle('play', vis);
+      if (vis) t = setTimeout(tick, 350);
+    }, 0.35);
+  });
+
+  /* ---------- community day: the four steps light up in order ---------- */
+  var stepsBox = one('.steps');
+  if (stepsBox && !calm) {
+    var st = $('.step', stepsBox), si = 0, stt = null, son = false;
+    function sgo(){
+      if (!son) return;
+      if (si >= st.length) {
+        st.forEach(function(x){ x.classList.remove('act'); x.classList.add('done'); });
+        stt = setTimeout(function(){
+          stepsBox.classList.add('rst'); st.forEach(function(x){ x.classList.remove('done', 'act'); });
+          void stepsBox.offsetWidth; stepsBox.classList.remove('rst'); si = 0; sgo();
+        }, 2600);
+        return;
+      }
+      st.forEach(function(x, j){ x.classList.toggle('act', j === si); x.classList.toggle('done', j < si); });
+      si++; stt = setTimeout(sgo, 1700);
+    }
+    watch(stepsBox, function(vis){ if (vis === son) return; son = vis; clearTimeout(stt); if (vis) sgo(); }, 0.4);
+  }
+
+  /* ---------- hero background: a network of agents passing work along ---------- */
   var cv = document.getElementById('net');
   if (!cv || !cv.getContext) return;
-  var ctx = cv.getContext('2d'), W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), P = [], S = [], mouse = null, run = false, raf = 0, LINK = 150;
+  var ctx = cv.getContext('2d'), W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), P = [], S = [], mouse = null, run2 = false, raf = 0, LINK = 150;
   function size(){
     W = cv.clientWidth; H = cv.clientHeight;
     cv.width = W * D; cv.height = H * D; ctx.setTransform(D, 0, 0, D, 0, 0);
     var n = Math.max(24, Math.min(95, Math.round(W * H / 15000)));
     P = [];
-    for (var k = 0; k < n; k++) P.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28, r: Math.random() * 1.4 + 0.8 });
+    for (var q = 0; q < n; q++) P.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28, r: Math.random() * 1.4 + 0.8 });
     S = [];
   }
   function near(a){
-    var out = [];
-    for (var k = 0; k < P.length; k++) { if (k === a) continue; var dx = P[k].x - P[a].x, dy = P[k].y - P[a].y; if (dx * dx + dy * dy < LINK * LINK) out.push(k); }
-    return out;
+    var o = [];
+    for (var q = 0; q < P.length; q++) { if (q === a) continue; var dx = P[q].x - P[a].x, dy = P[q].y - P[a].y; if (dx * dx + dy * dy < LINK * LINK) o.push(q); }
+    return o;
   }
   function spawn(){
     var a = Math.floor(Math.random() * P.length), nb = near(a);
@@ -681,22 +1112,22 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
   }
   function draw(){
     ctx.clearRect(0, 0, W, H);
-    var k, j, p, q, dx, dy, d2, a;
-    for (k = 0; k < P.length; k++) {
-      p = P[k];
+    var q, j, p, o, dx, dy, d2, a;
+    for (q = 0; q < P.length; q++) {
+      p = P[q];
       if (!calm) { p.x += p.vx; p.y += p.vy; }
       if (p.x < -20) p.x = W + 20; else if (p.x > W + 20) p.x = -20;
       if (p.y < -20) p.y = H + 20; else if (p.y > H + 20) p.y = -20;
     }
     ctx.lineWidth = 1;
-    for (k = 0; k < P.length; k++) {
-      p = P[k];
-      for (j = k + 1; j < P.length; j++) {
-        q = P[j]; dx = p.x - q.x; dy = p.y - q.y; d2 = dx * dx + dy * dy;
+    for (q = 0; q < P.length; q++) {
+      p = P[q];
+      for (j = q + 1; j < P.length; j++) {
+        o = P[j]; dx = p.x - o.x; dy = p.y - o.y; d2 = dx * dx + dy * dy;
         if (d2 < LINK * LINK) {
           a = (1 - Math.sqrt(d2) / LINK) * 0.22;
           ctx.strokeStyle = 'rgba(120,255,210,' + a.toFixed(3) + ')';
-          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(o.x, o.y); ctx.stroke();
         }
       }
       if (mouse) {
@@ -710,30 +1141,32 @@ td:first-child{font-weight:600;white-space:nowrap;color:var(--ink)}
       ctx.fillStyle = 'rgba(190,255,232,.6)';
       ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
     }
-    for (k = S.length - 1; k >= 0; k--) {
-      var s = S[k]; p = P[s.a]; q = P[s.b];
+    for (q = S.length - 1; q >= 0; q--) {
+      var s = S[q]; p = P[s.a]; o = P[s.b];
       s.t += 0.022;
-      var x = p.x + (q.x - p.x) * s.t, y = p.y + (q.y - p.y) * s.t, col = s.amber ? '255,179,71' : '61,255,180';
+      var x = p.x + (o.x - p.x) * s.t, y = p.y + (o.y - p.y) * s.t, col = s.amber ? '255,179,71' : '61,255,180';
       var gr = ctx.createRadialGradient(x, y, 0, x, y, 14);
       gr.addColorStop(0, 'rgba(' + col + ',.95)'); gr.addColorStop(0.25, 'rgba(' + col + ',.35)'); gr.addColorStop(1, 'rgba(' + col + ',0)');
       ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(x, y, 14, 0, 6.2832); ctx.fill();
       ctx.strokeStyle = 'rgba(' + col + ',.55)'; ctx.lineWidth = 1.4;
-      ctx.beginPath(); ctx.moveTo(p.x + (q.x - p.x) * Math.max(0, s.t - 0.35), p.y + (q.y - p.y) * Math.max(0, s.t - 0.35)); ctx.lineTo(x, y); ctx.stroke(); ctx.lineWidth = 1;
+      var t0 = Math.max(0, s.t - 0.35);
+      ctx.beginPath(); ctx.moveTo(p.x + (o.x - p.x) * t0, p.y + (o.y - p.y) * t0); ctx.lineTo(x, y); ctx.stroke(); ctx.lineWidth = 1;
       if (s.t >= 1) {
         var nb = near(s.b);
         if (--s.hops > 0 && nb.length) { s.a = s.b; s.b = nb[Math.floor(Math.random() * nb.length)]; s.t = 0; }
-        else S.splice(k, 1);
+        else S.splice(q, 1);
       }
     }
     if (!calm && S.length < 9 && Math.random() < 0.06) spawn();
   }
-  function loop(){ draw(); if (run) raf = requestAnimationFrame(loop); }
-  function start(){ if (run || calm) return; run = true; raf = requestAnimationFrame(loop); }
-  function stop(){ run = false; cancelAnimationFrame(raf); }
+  function loop(){ draw(); if (run2) raf = requestAnimationFrame(loop); }
+  function start(){ if (run2 || calm) return; run2 = true; raf = requestAnimationFrame(loop); }
+  function stop(){ run2 = false; cancelAnimationFrame(raf); }
   size(); draw();
   var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ size(); draw(); }, 150); });
   window.addEventListener('pointermove', function(e){ var r = cv.getBoundingClientRect(); mouse = (e.clientY < r.bottom) ? { x: e.clientX - r.left, y: e.clientY - r.top } : null; }, { passive: true });
-  new IntersectionObserver(function(es){ es[0].isIntersecting && !document.hidden ? start() : stop(); }).observe(cv);
+  if (hasIO) new IntersectionObserver(function(es){ es[0].isIntersecting && !document.hidden ? start() : stop(); }).observe(cv);
+  else start();
   document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
 })();
 </script>
