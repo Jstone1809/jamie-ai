@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Jamie · AI Operator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="How one founder runs two eBay shops and two YouTube channels with a team of AI agents - every business use, what it replaced and what changed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an operator's logbook - a single readable column for the story, widening into ledger grids for the systems. */
+:root{
+  --paper:#f3f5f2;
+  --sheet:#ffffff;
+  --ink:#14211d;
+  --ink-2:#4a5a54;
+  --rule:#d5ddd8;
+  --signal:#1f6f5c;      /* deep pine - the accent */
+  --signal-soft:#e1efe9;
+  --flag:#c9711a;        /* used only for 'needs a human' */
+  --flag-soft:#f8ead9;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --wrap:1120px;
+  --read:68ch;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f1513; --sheet:#151d1a; --ink:#e6ece9; --ink-2:#9db0a8; --rule:#26332e;
+    --signal:#5fc4a6; --signal-soft:#16302a; --flag:#e8a15a; --flag-soft:#33261a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f1513; --sheet:#151d1a; --ink:#e6ece9; --ink-2:#9db0a8; --rule:#26332e;
+  --signal:#5fc4a6; --signal-soft:#16302a; --flag:#e8a15a; --flag-soft:#33261a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-.02em}
+h3{font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--signal);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:4px}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
+section{padding-block:clamp(56px,8vw,96px);border-top:1px solid var(--rule)}
+.lede{font-size:1.15rem;color:var(--ink-2);max-width:var(--read)}
+
+/* ---------- top bar ---------- */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px;flex-wrap:wrap}
+.top .who{font-family:var(--display);font-weight:700;font-size:1.05rem}
+.top nav{display:flex;gap:18px;flex-wrap:wrap}
+.top nav a{color:var(--ink-2);text-decoration:none;font-size:.92rem}
+.top nav a:hover{color:var(--signal)}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(40px,7vw,88px) clamp(48px,7vw,80px);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:start}
+.hero h1{font-size:clamp(2.5rem,6vw,4.6rem);font-weight:800;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--signal)}
+.hero .lede{margin-top:22px}
+.hero .cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:8px;font-weight:600;text-decoration:none;font-size:.95rem}
+.btn.primary{background:var(--signal);color:var(--paper)}
+.btn.ghost{border:1px solid var(--rule);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--signal)}
+
+/* the log - a typical evening */
+.log{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;overflow:hidden;min-width:0}
+.log header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.log ol{list-style:none;margin:0;padding:6px 0;font-family:var(--mono);font-size:.8rem;line-height:1.45}
+.log li{display:grid;grid-template-columns:3.4em minmax(0,1fr);gap:10px;padding:7px 16px}
+.log li time{color:var(--ink-2);font-variant-numeric:tabular-nums}
+.log li .who{color:var(--signal);font-weight:500}
+.log li.human{background:var(--flag-soft)}
+.log li.human .who{color:var(--flag)}
+.log footer{padding:10px 16px;border-top:1px solid var(--rule);font-size:.78rem;color:var(--ink-2)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--rule);border-radius:12px;background:var(--sheet);overflow:hidden}
+.stat{padding:22px 22px 20px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:6px}
+.stat:nth-child(3n){border-right:0}
+.stat:nth-last-child(-n+3){border-bottom:0}
+.stat b{font-family:var(--display);font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.stat span{color:var(--ink-2);font-size:.92rem}
+
+/* ---------- system map ---------- */
+.map{margin-top:40px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.2fr) auto minmax(0,1fr);gap:14px;align-items:stretch}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.col .label{margin-bottom:2px}
+.node{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:12px 14px;font-size:.92rem}
+.node small{display:block;color:var(--ink-2);font-size:.8rem;margin-top:2px}
+.node.core{border-color:var(--signal);background:var(--signal-soft)}
+.node.me{border-color:var(--flag);background:var(--flag-soft)}
+.arrow{align-self:center;color:var(--ink-2);font-family:var(--mono);font-size:1.4rem}
+.map-note{margin-top:22px;color:var(--ink-2);max-width:var(--read);font-size:.95rem}
+
+/* ---------- case studies ---------- */
+.cases{margin-top:40px;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+.case{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:clamp(20px,4vw,48px);padding-block:34px;border-bottom:1px solid var(--rule)}
+.case .meta{display:flex;flex-direction:column;gap:10px}
+.case .area{display:inline-block;align-self:flex-start;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:var(--signal-soft);color:var(--signal)}
+.case .body{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.case .body > div{min-width:0}
+.case .body h4{font-family:var(--mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);margin:0 0 6px;font-weight:500}
+.case .body p{font-size:.96rem}
+.case .result p{color:var(--ink)}
+.case .result{border-left:2px solid var(--signal);padding-left:14px}
+
+/* ---------- inventory table ---------- */
+.inv-wrap{margin-top:36px;overflow-x:auto;border:1px solid var(--rule);border-radius:12px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.92rem}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:500;background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.pill.auto{background:var(--signal-soft);color:var(--signal)}
+.pill.ok{background:var(--flag-soft);color:var(--flag)}
+.filters{margin-top:28px;display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:inherit;font-size:.85rem;padding:7px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ---------- guardrails ---------- */
+.rails{margin-top:36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.rail{padding:20px 22px;border:1px solid var(--rule);border-radius:12px;background:var(--sheet);display:flex;flex-direction:column;gap:8px}
+.rail p{color:var(--ink-2);font-size:.95rem}
+
+/* ---------- playbook ---------- */
+.steps{margin-top:36px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
+.step{display:flex;flex-direction:column;gap:8px;padding-top:16px;border-top:2px solid var(--ink)}
+.step .when{font-family:var(--mono);font-size:.78rem;color:var(--signal)}
+.step p{color:var(--ink-2);font-size:.95rem}
+.who-for{margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.who-for div{padding:18px 20px;background:var(--signal-soft);border-radius:12px}
+.who-for b{display:block;font-family:var(--display);font-size:1.05rem;margin-bottom:4px}
+.who-for p{font-size:.93rem}
+
+/* ---------- stack ---------- */
+.stack{margin-top:30px;display:flex;flex-wrap:wrap;gap:8px}
+.stack span{font-family:var(--mono);font-size:.82rem;padding:6px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--sheet)}
+
+.foot{padding-block:56px 72px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:end}
+.foot h2{max-width:20ch}
+.foot p{color:var(--ink-2);margin-top:12px;max-width:var(--read)}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .map{grid-template-columns:minmax(0,1fr)}
+  .arrow{transform:rotate(90deg);justify-self:center}
+  .case{grid-template-columns:minmax(0,1fr)}
+  .case .body{grid-template-columns:minmax(0,1fr)}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .who-for{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(3n){border-right:1px solid var(--rule)}
+  .stat:nth-child(2n){border-right:0}
+  .stat:nth-last-child(-n+3){border-bottom:1px solid var(--rule)}
+  .stat:nth-last-child(-n+2){border-bottom:0}
+  .rails{grid-template-columns:minmax(0,1fr)}
+  .steps{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .log li{animation:in .5s ease both}
+  .log li:nth-child(2){animation-delay:.08s}.log li:nth-child(3){animation-delay:.16s}.log li:nth-child(4){animation-delay:.24s}
+  .log li:nth-child(5){animation-delay:.32s}.log li:nth-child(6){animation-delay:.4s}.log li:nth-child(7){animation-delay:.48s}.log li:nth-child(8){animation-delay:.56s}
+  @keyframes in{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="top">
+    <span class="who">Jamie · JMS Digital Ltd</span>
+    <nav aria-label="Sections">
+      <a href="#system">The system</a>
+      <a href="#work">Case studies</a>
+      <a href="#everything">Every use</a>
+      <a href="#guardrails">Guardrails</a>
+      <a href="#community">For small businesses</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div>
+      <p class="label">AI operator · United Kingdom</p>
+      <h1 style="margin-top:14px">I run four small businesses with <em>a team of AI agents</em> and one phone.</h1>
+      <p class="lede">Two eBay shops selling digital game goods and two YouTube channels. One person. The admin that used to fill my day (delivering orders, answering buyers, checking supplier prices, editing videos) now runs on AI systems I built myself. I make the decisions; the agents do the rest.</p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See what I built</a>
+        <a class="btn ghost" href="#community">How I'd help your business</a>
+      </div>
+    </div>
+
+    <aside class="log" aria-label="A typical evening in the activity log">
+      <header><span class="label">Activity log · a typical evening</span><span class="label">anonymised</span></header>
+      <ol>
+        <li><time>18:02</time><span><span class="who">delivery</span> order paid → digital item sent in 41s, buyer notified</span></li>
+        <li><time>18:30</time><span><span class="who">cost guard</span> supplier price up 16% on one item → listing raised to keep 25% margin</span></li>
+        <li><time>19:14</time><span><span class="who">support</span> buyer asks "where's my code?" → answered from order history, no human needed</span></li>
+        <li class="human"><time>19:40</time><span><span class="who">needs me</span> refund request over policy → drafted reply sent to my phone for a yes/no</span></li>
+        <li><time>20:05</time><span><span class="who">video</span> new recording → silences cut, captions, thumbnail drafted</span></li>
+        <li><time>20:30</time><span><span class="who">scheduler</span> 6 videos spread evenly to midnight, best one in the best slot</span></li>
+        <li><time>21:46</time><span><span class="who">finance</span> refund processed → P&amp;L and supplier log updated</span></li>
+        <li><time>23:00</time><span><span class="who">away mode</span> auto-reply on, deadlines guarded overnight</span></li>
+      </ol>
+      <footer>Every money decision stops at an orange line for me.</footer>
+    </aside>
+  </header>
+
+  <div class="stats" role="list" aria-label="Key numbers">
+    <div class="stat" role="listitem"><b>12,700+</b><span>orders handled since Aug 2025</span></div>
+    <div class="stat" role="listitem"><b>38</b><span>scheduled automations running daily</span></div>
+    <div class="stat" role="listitem"><b>18</b><span>specialist AI agents, one job each</span></div>
+    <div class="stat" role="listitem"><b>400+</b><span>YouTube videos edited &amp; scheduled with AI</span></div>
+    <div class="stat" role="listitem"><b>12</b><span>eBay marketplaces kept in sync</span></div>
+    <div class="stat" role="listitem"><b>400</b><span>small tools written with AI, in plain Python</span></div>
+  </div>
+</div>
+
+<section id="system">
+  <div class="wrap">
+    <p class="label">The system</p>
+    <h2 style="margin-top:10px">Signals in, agents work, I decide.</h2>
+    <p class="lede" style="margin-top:16px">Nothing here is one giant bot. It's lots of small, boring, reliable pieces, each doing one job, all feeding a single queue on my phone.</p>
+
+    <div class="map" role="img" aria-label="Diagram: business signals flow to AI agents, routine work is done automatically, decisions go to a phone queue for Jamie">
+      <div class="col">
+        <span class="label">Signals</span>
+        <div class="node">New orders &amp; payments<small>marketplace APIs</small></div>
+        <div class="node">Buyer messages<small>inbox watch</small></div>
+        <div class="node">Supplier prices<small>public price feeds</small></div>
+        <div class="node">New recordings<small>capture folder</small></div>
+        <div class="node">Trends &amp; game updates<small>web + sold data</small></div>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="col">
+        <span class="label">Agents &amp; automations</span>
+        <div class="node core">Delivery &amp; dispatch<small>sends the item, marks shipped, guards deadlines</small></div>
+        <div class="node core">Support<small>answers routine questions, drafts the hard ones</small></div>
+        <div class="node core">Cost &amp; margin guards<small>raise-only repricing, VAT-aware</small></div>
+        <div class="node core">Listings &amp; images<small>research → images → live in 12 markets</small></div>
+        <div class="node core">Video studio<small>edit, captions, thumbnails, titles, schedule</small></div>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="col">
+        <span class="label">Outcomes</span>
+        <div class="node">Done automatically<small>logged, reversible, reported</small></div>
+        <div class="node me">Decision card on my phone<small>urgent cards push; the rest wait for a 07:30 digest</small></div>
+        <div class="node">Morning dashboard<small>P&amp;L, to-dos, margins, what changed overnight</small></div>
+      </div>
+    </div>
+    <p class="map-note">The rule that makes it work: an agent can do anything routine and reversible on its own. Anything that spends money, messages a customer in a new way, or changes prices downward becomes a one-tap card for me.</p>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <p class="label">Case studies</p>
+    <h2 style="margin-top:10px">Real problems, what I built, what changed.</h2>
+
+    <div class="cases">
+      <article class="case">
+        <div class="meta"><span class="area">Operations</span><h3>Orders delivered in seconds, not hours</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>Digital orders arrive day and night. Buyers expect them instantly, and late delivery means bad feedback and refunds.</p></div>
+          <div><h4>What I built</h4><p>A delivery service that watches for paid orders, picks the right item from tested stock, sends it with clear instructions and marks the order dispatched. A guard ships anything still open an hour before its deadline and skips known bad actors.</p></div>
+          <div class="result"><h4>What changed</h4><p>Most orders are fulfilled in under a minute, 24/7, including while I sleep. No missed dispatch deadlines.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Pricing</span><h3>Supplier costs that can't quietly eat the margin</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>I buy stock from marketplaces where prices move daily. Items that were profitable last week were selling at a loss before I noticed.</p></div>
+          <div><h4>What I built</h4><p>Cost guards for each product line that read live supplier prices, run them through one VAT-aware profit formula, and raise the selling price when margin drops under target. Big jumps become a card for me to confirm. They never lower prices on their own.</p></div>
+          <div class="result"><h4>What changed</h4><p>Every order clears a minimum profit after fees, VAT and cost. Loss-makers are caught within hours, not at month end.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Customer service</span><h3>Support that sounds like me</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>Most buyer messages are the same five questions. The rare hard ones (disputes, replacements) need care and context.</p></div>
+          <div><h4>What I built</h4><p>An auto-reply assistant for routine questions, plus a support agent that pulls the buyer's order history and screenshots and drafts a reply in my tone from a file of my past answers. Standing rules let it act alone in narrow, safe cases.</p></div>
+          <div class="result"><h4>What changed</h4><p>Routine questions get answered in minutes. I only read the messages that need judgement, and every answer I give teaches the next draft.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Quality control</span><h3>Testing stock before customers find the problem</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>Some supplier batches arrive with bad items. Selling them costs refunds, reputation and time.</p></div>
+          <div><h4>What I built</h4><p>A browser-driven tester that checks every incoming batch, resumes where it stopped, sorts results, and only releases good stock. Bad batches are grouped per supplier order with screenshots, ready for a refund claim.</p></div>
+          <div class="result"><h4>What changed</h4><p>Problems are found by me, not my buyers. Supplier claims take minutes, and a supplier quality history decides who I buy from next.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Management</span><h3>A business that briefs me every morning</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>Four businesses produce hundreds of small alerts a day. Reading all of them is a job in itself.</p></div>
+          <div><h4>What I built</h4><p>A decision queue on my phone with two speeds (urgent cards push, everything else waits for one 07:30 digest) and a daily dashboard covering P&amp;L, margins, campaigns, stock and to-dos. A state page gives a fresh AI session full context in one read.</p></div>
+          <div class="result"><h4>What changed</h4><p>I start the day with one page and a short list of yes/no decisions instead of an inbox.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Sales &amp; marketing</span><h3>From "what should I sell?" to live in 12 markets</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>Launching a product line meant days of research, image work and copying listings between countries.</p></div>
+          <div><h4>What I built</h4><p>Research agents that compare sold demand with supplier cost and margin. An image pipeline that finds artwork, cleans it up with ChatGPT and renders it on a house template. A builder that creates multi-variation listings and copies them to 10 international sites.</p></div>
+          <div class="result"><h4>What changed</h4><p>A new game's range can go from idea to approved brief to live listings in a day, with every price checked against real cost first.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Content</span><h3>A video studio for a one-person channel</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>A guide channel lives on volume and speed after a big game launch. Editing alone was the bottleneck.</p></div>
+          <div><h4>What I built</h4><p>A pipeline that cuts silences and repeated takes, adds captions, blurs swearing, splits facecam and gameplay into vertical Shorts, drafts thumbnails and SEO titles, and schedules uploads through the YouTube API, spaced through the day with the strongest video in the best slot. TikTok gets the same clips on its own schedule.</p></div>
+          <div class="result"><h4>What changed</h4><p>400+ videos and Shorts published across two channels. I record and approve; the edit, upload and schedule happen without me.</p></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="meta"><span class="area">Finance</span><h3>Books that keep themselves</h3></div>
+        <div class="body">
+          <div><h4>Problem</h4><p>VAT registration changed the profit maths overnight, across two currencies and a dozen marketplaces.</p></div>
+          <div><h4>What I built</h4><p>One shared profit formula (sale, fees, VAT reclaim, cost) used by every report and guard. A P&amp;L built from the marketplace finance feed, with supplier purchases linked to the orders they fulfilled and a weekly ad-spend review.</p></div>
+          <div class="result"><h4>What changed</h4><p>Profit is calculated the same way everywhere, every day. Unlinked purchases and losing campaigns show up as to-dos, not surprises.</p></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="everything">
+  <div class="wrap">
+    <p class="label">Inventory</p>
+    <h2 style="margin-top:10px">Every business use, in one table.</h2>
+    <p class="lede" style="margin-top:16px">Green runs on its own. Orange means the AI prepares the work and I approve it.</p>
+
+    <div class="filters" role="group" aria-label="Filter by area">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="ops" aria-pressed="false">Operations</button>
+      <button type="button" data-f="money" aria-pressed="false">Pricing &amp; finance</button>
+      <button type="button" data-f="cust" aria-pressed="false">Customers</button>
+      <button type="button" data-f="growth" aria-pressed="false">Research &amp; sales</button>
+      <button type="button" data-f="content" aria-pressed="false">Content</button>
+    </div>
+
+    <div class="inv-wrap">
+      <table id="inv">
+        <thead><tr><th>Use</th><th>What the AI does</th><th>Replaced</th><th>Mode</th></tr></thead>
+        <tbody>
+          <tr data-a="ops"><td>Order delivery</td><td>Sends digital items from tested stock within seconds of payment</td><td>Manual copy-paste, day and night</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="ops"><td>Dispatch guard</td><td>Marks orders shipped before deadlines; skips flagged buyers</td><td>Late-dispatch defects</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="ops"><td>Stock quality testing</td><td>Tests every supplier batch in the browser, releases only good stock</td><td>Customers finding bad stock</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="ops"><td>Restock planning</td><td>Compares stock cover with 24h sales, recommends what and where to buy</td><td>Guesswork and stock-outs</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="ops"><td>Supplier claims</td><td>Groups bad items per supplier order with screenshots, tracks refunds</td><td>Hours of ticket writing</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="ops"><td>Quantity top-ups</td><td>Keeps listing quantities healthy without touching deliberate zeros</td><td>Listings silently selling out</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="ops"><td>Stale listing review</td><td>Finds listings with no sales or watchers for 59+ days</td><td>Clutter and wasted fees</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="ops"><td>Away mode</td><td>Switches auto-replies on overnight and at weekends</td><td>Unanswered buyers while offline</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="ops"><td>Watchdog</td><td>Checks every scheduled job is alive and restarts what stopped</td><td>Silent failures</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="money"><td>Cost guards</td><td>Live supplier prices → raise-only repricing to target margin</td><td>Selling at a loss unnoticed</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="money"><td>Profit formula</td><td>One VAT-aware calculation shared by every tool and report</td><td>Five spreadsheets that disagreed</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="money"><td>P&amp;L and purchase linking</td><td>Builds daily profit from finance data, links each purchase to its order</td><td>Month-end reconciliation</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="money"><td>Price suggestions</td><td>Spots rival undercuts and proposes changes only when total profit rises</td><td>Race-to-the-bottom pricing</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="money"><td>Ad review</td><td>Weekly review of promoted listing spend against sales</td><td>Ads running at a loss</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="money"><td>API budget</td><td>Keeps a reserve of marketplace API calls for delivery and support</td><td>Hitting daily limits mid-order</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="cust"><td>Auto-replies</td><td>Answers routine buyer questions from order data</td><td>Typing the same answer 30 times a day</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="cust"><td>Support drafts</td><td>Pulls history and screenshots, drafts replies in my voice</td><td>Context-switching into every thread</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="cust"><td>Risk checks</td><td>Flags suspicious orders, dispute patterns and linked accounts</td><td>Losses to repeat abusers</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="cust"><td>Dispute evidence</td><td>Assembles delivery evidence for payment disputes</td><td>Lost disputes</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="cust"><td>Feedback requests</td><td>Follows up after delivery to ask for a review</td><td>Forgetting to ask</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="growth"><td>Demand research</td><td>Sold-listing demand vs supplier cost → what's worth selling</td><td>Days of manual browsing</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="growth"><td>New market scout</td><td>Weekly scan for games and competitor shops to enter</td><td>Missing trends</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="growth"><td>Game update check</td><td>Monday check of game updates that create new products</td><td>Launching late</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="growth"><td>Listing images</td><td>Finds artwork, cleans it with ChatGPT, renders on a house template</td><td>Hours in an image editor</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="growth"><td>Listing builder</td><td>Creates multi-variation listings and copies them to 10 sites</td><td>Re-typing listings per country</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="growth"><td>Shop layout</td><td>Keeps featured categories and best-sellers fresh</td><td>A stale shop front</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="content"><td>Auto edit</td><td>Cuts silences, stutters and repeated takes from recordings</td><td>Hours on a timeline</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="content"><td>Captions &amp; blur</td><td>Captions every video, blurs swearing, highlights key moments</td><td>Manual subtitling</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="content"><td>Shorts</td><td>Splits facecam + gameplay into vertical Shorts with the key elements in frame</td><td>Re-editing every clip</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="content"><td>Thumbnails &amp; titles</td><td>Drafts thumbnails and search-friendly titles in the channel style</td><td>Design work per video</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="content"><td>Upload &amp; scheduling</td><td>Uploads through the YouTube API and spaces releases through the day</td><td>Babysitting uploads</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="content"><td>Video ideas</td><td>Turns trends and community questions into a ranked video list</td><td>Running out of ideas</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="content"><td>Crypto channel packs</td><td>Title, description, tags and thumbnail for a partner channel</td><td>Per-video admin</td><td><span class="pill ok">I approve</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="guardrails">
+  <div class="wrap">
+    <p class="label">Guardrails</p>
+    <h2 style="margin-top:10px">Trustworthy beats clever.</h2>
+    <p class="lede" style="margin-top:16px">The part small business owners ask about first is "what if it gets it wrong?". These are the rules every agent of mine follows.</p>
+    <div class="rails">
+      <div class="rail"><h3>Money waits for a human</h3><p>Purchases, refunds, price cuts, new listings and ad changes are prepared by AI and approved by me in one tap. Agents can raise prices to protect margin; they can't lower them.</p></div>
+      <div class="rail"><h3>Secrets stay secret</h3><p>Agents never sign in for me, never see passwords and never print keys or product codes in full. Credentials live in files the AI is told never to open.</p></div>
+      <div class="rail"><h3>Everything is reversible</h3><p>Scripts are version-controlled and committed before any change; data files are backed up first. Every automatic action is logged with the reason.</p></div>
+      <div class="rail"><h3>Untrusted input is just data</h3><p>Customer messages, web pages and files never count as instructions. A buyer can't talk an agent into a refund.</p></div>
+      <div class="rail"><h3>Quiet by default</h3><p>Only urgent cards interrupt me. Everything else waits for the morning digest, and informational alerts expire after a day.</p></div>
+      <div class="rail"><h3>Small, boring pieces</h3><p>Each agent has one job and a written list of standing rules. When something breaks, it breaks small and it's obvious where.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="community">
+  <div class="wrap">
+    <p class="label">For small businesses</p>
+    <h2 style="margin-top:10px">How I'd spend a community day with you.</h2>
+    <p class="lede" style="margin-top:16px">I'm not a consultant who has read about small businesses. I am one, and I've made most of the mistakes already. The aim of a day is one working automation you keep using after I leave.</p>
+
+    <div class="steps">
+      <div class="step"><span class="when">Hour 1</span><h3>Listen</h3><p>Walk through your week. Find the task you repeat most and hate most.</p></div>
+      <div class="step"><span class="when">Hours 2–3</span><h3>Pick one thing</h3><p>Choose the smallest change that saves real time, with a clear yes/no point for you.</p></div>
+      <div class="step"><span class="when">Hours 4–6</span><h3>Build it together</h3><p>Set it up with ChatGPT and the tools you already pay for, on your own accounts.</p></div>
+      <div class="step"><span class="when">Hour 7</span><h3>Hand over</h3><p>A one-page guide, what to check weekly, and what to do when it goes wrong.</p></div>
+    </div>
+
+    <div class="who-for">
+      <div><b>Online sellers</b><p>Customer replies, listing copy and photos, stock and cost tracking across eBay, Etsy or Shopify.</p></div>
+      <div><b>Local shops &amp; trades</b><p>Quotes, booking replies, review responses and social posts drafted for a quick approve.</p></div>
+      <div><b>Creators &amp; clubs</b><p>Video editing, captions, posting schedules and newsletters without a media team.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="label">Tools I build with</p>
+    <h2 style="margin-top:10px">Practical, mostly off-the-shelf.</h2>
+    <div class="stack">
+      <span>ChatGPT</span><span>Claude Code agents</span><span>Python</span><span>Marketplace &amp; finance APIs</span><span>YouTube Data API</span><span>Browser automation</span><span>FFmpeg</span><span>Speech-to-text captions</span><span>Telegram bots</span><span>Google Sheets &amp; Apps Script</span><span>Windows Task Scheduler</span><span>Git</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer class="foot">
+    <div>
+      <h2>Small businesses don't need a data team. They need one good automation at a time.</h2>
+      <p>Jamie, founder of JMS Digital Ltd. Two eBay shops, two YouTube channels, one person.</p>
+    </div>
+    <div class="cta" style="display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn primary" href="https://github.com/Jstone1809">GitHub</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.filters button');
+  var rows=document.querySelectorAll('#inv tbody tr');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=b.getAttribute('data-f');
+      btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      rows.forEach(function(r){r.hidden=!(f==='all'||r.getAttribute('data-a')===f)});
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
