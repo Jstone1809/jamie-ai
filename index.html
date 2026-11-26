@@ -672,7 +672,7 @@ td:nth-child(3){font-family:var(--mono);font-size:.86rem;text-decoration:line-th
         <div class="meta"><span class="area">Content</span><h3>A video studio for a one-person channel</h3></div>
         <div class="body">
           <div><h4>Problem</h4><p>A guide channel lives on volume and speed after a big game launch. Editing alone was the bottleneck.</p></div>
-          <div><h4>What I built</h4><p>A pipeline that cuts silences and repeated takes, adds captions, blurs swearing, splits facecam and gameplay into vertical Shorts, drafts thumbnails and SEO titles, and schedules uploads through the YouTube API, spaced through the day with the strongest video in the best slot. TikTok gets the same clips on its own schedule.</p></div>
+          <div><h4>What I built</h4><p>A pipeline that cuts silences and repeated takes, adds captions, finds my facecam in the recording and crops it into place, splits facecam and gameplay into vertical Shorts, drafts thumbnails and SEO titles, and schedules uploads through the YouTube API, spaced through the day with the strongest video in the best slot. TikTok gets the same clips on its own schedule.</p></div>
           <div class="result"><h4>What changed</h4><p>400+ videos and Shorts published across two channels. I record and approve; the edit, upload and schedule happen without me.</p></div>
         </div>
         </div>
@@ -684,7 +684,7 @@ td:nth-child(3){font-family:var(--mono);font-size:.86rem;text-decoration:line-th
 <rect class="cut" x="100" y="42" width="40" height="40" rx="4"/><rect class="cut" x="215" y="42" width="50" height="40" rx="4"/><rect class="cut" x="320" y="42" width="25" height="40" rx="4"/>
 <text x="376" y="28" text-anchor="end" class="h a1 g2 red sm">silences found</text>
 <text x="376" y="28" text-anchor="end" class="h a2 mint sm">cut ✓</text>
-<g class="h a3 up"><rect x="24" y="98" width="232" height="24" rx="8" fill="rgba(22,19,13,.07)"/><text x="36" y="114" class="sm">captions ✓   swearing blurred ✓</text></g>
+<g class="h a3 up"><rect x="24" y="98" width="232" height="24" rx="8" fill="rgba(22,19,13,.07)"/><text x="36" y="114" class="sm">captions ✓   facecam cropped ✓</text></g>
 <g class="h a3 d2 up"><rect x="304" y="98" width="64" height="112" rx="9" fill="rgba(29,63,208,.08)" stroke="#1d3fd0" stroke-width="1.4"/><rect x="310" y="104" width="52" height="40" rx="5" fill="#ffe14a"/><rect x="310" y="148" width="52" height="56" rx="5" fill="rgba(29,63,208,.25)"/><text x="336" y="128" text-anchor="middle" class="sm">cam</text><text x="336" y="180" text-anchor="middle" class="sm">game</text><text x="336" y="228" text-anchor="middle" class="dim sm">Short 9:16</text></g>
 <g class="h a4"><text x="24" y="156" class="dim sm">today's uploads</text><path d="M30 186H248" stroke="rgba(22,19,13,.2)"/><text x="24" y="214" class="dim sm">12:00</text><text x="256" y="214" text-anchor="end" class="dim sm">00:00</text></g>
 <circle class="h a4 d0" cx="44" cy="186" r="4" fill="rgba(29,63,208,.55)"/><circle class="h a4 d1" cx="82" cy="186" r="4" fill="rgba(29,63,208,.55)"/><circle class="h a4 d2" cx="120" cy="186" r="4" fill="rgba(29,63,208,.55)"/><circle class="h a4 d3" cx="158" cy="186" r="6" fill="#1d3fd0"/><circle class="h a4 d4" cx="196" cy="186" r="4" fill="rgba(29,63,208,.55)"/><circle class="h a4 d5" cx="234" cy="186" r="4" fill="rgba(29,63,208,.55)"/>
@@ -766,8 +766,8 @@ td:nth-child(3){font-family:var(--mono);font-size:.86rem;text-decoration:line-th
           <tr data-a="growth"><td>Listing builder</td><td>Creates multi-variation listings and copies them to 10 sites</td><td>Re-typing listings per country</td><td><span class="pill ok">I approve</span></td></tr>
           <tr data-a="growth"><td>Shop layout</td><td>Keeps featured categories and best-sellers fresh</td><td>A stale shop front</td><td><span class="pill ok">I approve</span></td></tr>
           <tr data-a="content"><td>Auto edit</td><td>Cuts silences, stutters and repeated takes from recordings</td><td>Hours on a timeline</td><td><span class="pill auto">automatic</span></td></tr>
-          <tr data-a="content"><td>Captions &amp; blur</td><td>Captions every video, blurs swearing, highlights key moments</td><td>Manual subtitling</td><td><span class="pill auto">automatic</span></td></tr>
-          <tr data-a="content"><td>Shorts</td><td>Splits facecam + gameplay into vertical Shorts with the key elements in frame</td><td>Re-editing every clip</td><td><span class="pill ok">I approve</span></td></tr>
+          <tr data-a="content"><td>Captions &amp; highlights</td><td>Captions every video and rings the key moment on screen</td><td>Manual subtitling</td><td><span class="pill auto">automatic</span></td></tr>
+          <tr data-a="content"><td>Facecam &amp; Shorts</td><td>Finds the facecam, crops and places it, then stacks it over the gameplay for vertical Shorts with the key elements in frame</td><td>Re-editing every clip</td><td><span class="pill ok">I approve</span></td></tr>
           <tr data-a="content"><td>Thumbnails &amp; titles</td><td>Drafts thumbnails and search-friendly titles in the channel style</td><td>Design work per video</td><td><span class="pill ok">I approve</span></td></tr>
           <tr data-a="content"><td>Upload &amp; scheduling</td><td>Uploads through the YouTube API and spaces releases through the day</td><td>Babysitting uploads</td><td><span class="pill auto">automatic</span></td></tr>
           <tr data-a="content"><td>Video ideas</td><td>Turns trends and community questions into a ranked video list</td><td>Running out of ideas</td><td><span class="pill auto">automatic</span></td></tr>
